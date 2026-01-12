@@ -39,6 +39,7 @@ library(dplyr)
 library(ggplot2)
 library(survival)
 library(tibble)
+library(stringr)
 ```
 
 ## The Lung Cancer Dataset
