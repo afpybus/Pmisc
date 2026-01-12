@@ -37,6 +37,7 @@ This vignette demonstrates the function using the classic `iris` dataset.
 library(Pmisc)
 library(dplyr)
 library(ggplot2)
+library(tibble)
 ```
 
 ## Basic Usage: Comparing Two Groups

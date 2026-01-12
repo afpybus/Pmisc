@@ -38,6 +38,7 @@ library(Pmisc)
 library(dplyr)
 library(ggplot2)
 library(survival)
+library(tibble)
 ```
 
 ## The Lung Cancer Dataset
