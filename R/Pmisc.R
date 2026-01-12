@@ -386,7 +386,7 @@ comp_means <- function(df, feature_column_names, group_column_name = NA, compare
   DE <- mutate(DE, increased_in = case_when(mean_dif >= 0 ~ group1, mean_dif < 0 ~ group2)) %>%
     rename(feature = .y.) %>%
     mutate(sig_increased_in = case_when(p.adj.signif == "ns" ~ "ns", TRUE ~ increased_in)) %>%
-    mutate(sig_increased_in = factor(sig_increased_in, levels = c(unique(group1), unique(group2), "ns"))) %>%
+    mutate(sig_increased_in = factor(sig_increased_in, levels = c(unique(as.character(group1)), unique(as.character(group2)), "ns"))) %>%
     mutate(grouping = group_column_name)
   return(DE)
 }

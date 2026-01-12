@@ -49,6 +49,7 @@ Let's compare petal and sepal measurements between two species: setosa and versi
 ```{r basic_comparison}
 # Filter to two species for simplicity
 iris_subset <- iris %>%
+    mutate(Species = as.character(Species)) %>% # Convert factor to character
     filter(Species %in% c("setosa", "versicolor"))
 
 # Define features to compare
