@@ -1,0 +1,245 @@
+---
+title: "Statistical Comparisons with comp_means"
+author: "Alyssa Pybus"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Statistical Comparisons with comp_means}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    fig.width = 7,
+    fig.height = 5
+)
+```
+
+## Introduction
+
+The `comp_means()` function in Pmisc provides a streamlined way to perform statistical comparisons across multiple features between groups. It automatically handles:
+
+- Multiple statistical tests (t-test, Wilcoxon, ANOVA)
+- P-value adjustment for multiple testing
+- Calculation of fold changes and mean differences
+- Sample size validation
+
+It wraps the powerful **`ggpubr`** package functions to provide a more opinionated, high-throughput workflow.
+
+This vignette demonstrates the function using the classic `iris` dataset.
+
+## Load Package
+
+```{r load}
+library(Pmisc)
+library(dplyr)
+library(ggplot2)
+```
+
+## Basic Usage: Comparing Two Groups
+
+Let's compare petal and sepal measurements between two species: setosa and versicolor.
+
+```{r basic_comparison}
+# Filter to two species for simplicity
+iris_subset <- iris %>%
+    filter(Species %in% c("setosa", "versicolor"))
+
+# Define features to compare
+features <- c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width")
+
+# Compare means between species
+results <- comp_means(
+    df = iris_subset,
+    feature_column_names = features,
+    group_column_name = "Species",
+    compare_means_method = "t.test",
+    p.adjust_method = "fdr"
+)
+
+# View results
+results %>%
+    select(
+        feature, group1, group2, mean.group1, mean.group2,
+        mean_dif, p, p.adj, p.adj.signif
+    ) %>%
+    knitr::kable(digits = 3)
+```
+
+## Understanding the Output
+
+The `comp_means()` function returns a data frame with:
+
+- **feature**: The variable being compared
+- **group1**, **group2**: The two groups being compared
+- **mean.group1**, **mean.group2**: Mean values for each group
+- **mean_dif**: Difference between means (group1 - group2)
+- **log2fc**: Log2 fold change
+- **p**: Raw p-value from statistical test
+- **p.adj**: Adjusted p-value (FDR correction)
+- **p.adj.signif**: Significance level notation (ns, *, **, ***, ****)
+- **sig_increased_in**: Which group has higher values (if significant)
+
+## Volcano Plot Visualization
+
+The companion function `volcano_cm()` creates volcano plots to visualize the results:
+
+```{r volcano_plot}
+# Define colors for significance
+# "ns" is gray, significant groups get specific colors
+sig_colors <- tibble(
+    breaks = c("setosa", "versicolor", "ns"),
+    values = c("#FF9999", "#99CC99", "grey80")
+)
+
+# Create volcano plot with custom colors
+volcano_cm(
+    comp_means_output = results,
+    x = "mean_dif",
+    max_overlaps = 20
+) +
+    scm(sig_colors) + # Apply custom color scale
+    ggtitle("Setosa vs Versicolor: Feature Differences")
+```
+
+The plot shows:
+
+- X-axis: Mean difference between groups
+- Y-axis: -log10(adjusted p-value)
+- Horizontal line: p = 0.05 significance threshold
+- Colors: Which group has higher values
+- Labels: Features that are significantly different
+
+## Comparing All Three Species
+
+Now let's compare across all three species using ANOVA:
+
+```{r all_species}
+# Use the full iris dataset
+results_all <- comp_means(
+    df = iris,
+    feature_column_names = features,
+    group_column_name = "Species",
+    compare_means_method = "anova",
+    p.adjust_method = "fdr"
+)
+
+# View results
+results_all %>%
+    select(feature, p, p.adj, p.adj.signif) %>%
+    knitr::kable(digits = 10)
+```
+
+All four features show highly significant differences across the three species.
+
+## Wilcoxon Test for Non-Parametric Data
+
+For non-normal distributions, use the Wilcoxon rank-sum test:
+
+```{r wilcoxon}
+# Compare using Wilcoxon test
+results_wilcox <- comp_means(
+    df = iris_subset,
+    feature_column_names = features,
+    group_column_name = "Species",
+    compare_means_method = "wilcox.test",
+    p.adjust_method = "bonferroni"
+)
+
+# Compare p-values from t-test vs Wilcoxon
+comparison <- data.frame(
+    feature = features,
+    t_test_p = results$p.adj,
+    wilcox_p = results_wilcox$p.adj
+)
+
+knitr::kable(comparison, digits = 5)
+```
+
+## Visualizing Individual Features
+
+Use `DEF_boxplot()` to visualize specific features with p-value annotations:
+
+```{r boxplot, fig.height=4}
+# Create boxplot for Petal.Length
+DEF_boxplot(
+    data = iris_subset,
+    DE = results,
+    feature = "Petal.Length",
+    grouping = "Species"
+) +
+    ggtitle("Petal Length: Setosa vs Versicolor")
+```
+
+## Customizing Colors with sfm()
+
+Similar to `scm()`, the `sfm()` (Scale Fill Manual) helper allows you to easily apply custom fill colors using the same tibble format.
+
+```{r custom_colors}
+# Define color scheme for the species (reusing similar colors)
+my_colors <- tibble(
+    breaks = c("setosa", "versicolor", "virginica"),
+    values = c("#FF9999", "#99CC99", "#9999CC")
+)
+
+# 2. Apply to DEF_boxplot using sfm()
+DEF_boxplot(
+    data = iris_subset,
+    DE = results,
+    feature = "Petal.Length",
+    grouping = "Species"
+) +
+    sfm(my_colors) + # Apply custom fill colors
+    ggtitle("Petal Length with Custom Colors")
+```
+
+## P-Value Adjustment Methods
+
+The function supports multiple adjustment methods:
+
+```{r adjustment_methods}
+# Compare different adjustment methods
+adj_methods <- c("fdr", "bonferroni", "holm")
+
+adjustment_comparison <- lapply(adj_methods, function(method) {
+    res <- comp_means(
+        df = iris_subset,
+        feature_column_names = "Petal.Length",
+        group_column_name = "Species",
+        compare_means_method = "t.test",
+        p.adjust_method = method
+    )
+    data.frame(
+        method = method,
+        raw_p = res$p,
+        adj_p = res$p.adj
+    )
+}) %>% bind_rows()
+
+knitr::kable(adjustment_comparison, digits = 10)
+```
+
+**Note**: For a single comparison, all methods give the same result. The differences appear when comparing multiple features simultaneously.
+
+## Summary
+
+The `comp_means()` function provides:
+
+1. **Flexible testing**: Support for t-test, Wilcoxon, and ANOVA
+2. **Multiple testing correction**: FDR, Bonferroni, Holm, and others
+3. **Rich output**: Means, fold changes, p-values, and significance labels
+4. **Integration**: Works seamlessly with volcano plots and boxplots
+5. **Sample size checking**: Automatically removes features with insufficient data
+
+This makes it ideal for exploratory analysis, differential expression studies, and comparing measurements across experimental groups.
+
+## Related Functions
+
+- `p.readjust()`: Re-adjust p-values from comp_means output
+- `volcano_cm()`: Create volcano plots
+- `volcano_cm_labelall()`: Volcano plot labeling all points
+- `DEF_boxplot()`: Boxplot with p-value annotations
+- `DEF_boxplot_sig()`: Boxplot with significance stars

@@ -27,4 +27,8 @@ Imports:
     gplots,
     heatmap3,
     ggupset
+Suggests:
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
 RoxygenNote: 7.3.0
