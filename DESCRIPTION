@@ -1,0 +1,30 @@
+Package: Pmisc
+Type: Package
+Title: Personal R Utility Functions
+Version: 0.1.0
+Author: Alyssa Pybus
+Maintainer: Alyssa Pybus <afpybus@gmail.com>
+Description: A collection of personal utility functions for data analysis,
+    visualization, statistics, survival analysis, and more.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    dplyr,
+    tidyr,
+    ggplot2,
+    ggpubr,
+    tibble,
+    purrr,
+    stringr,
+    forcats,
+    Hmisc,
+    survival,
+    tidycmprsk,
+    ggsurvfit,
+    ggrepel,
+    ggeasy,
+    gplots,
+    heatmap3,
+    ggupset
+RoxygenNote: 7.3.0
