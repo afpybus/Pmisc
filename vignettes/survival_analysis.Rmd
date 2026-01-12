@@ -14,7 +14,9 @@ knitr::opts_chunk$set(
     collapse = TRUE,
     comment = "#>",
     fig.width = 7,
-    fig.height = 5
+    fig.height = 5,
+    fig.path = "figures/survival_analysis-",
+    dev = "png"
 )
 ```
 
@@ -139,9 +141,10 @@ You can control the exact colors of the volcano plot using the `scm()` helper:
 
 ```{r custom_volcano}
 # Define custom colors for hazard categories
-volcano_colors <- tibble(
+volcano_colors <- data.frame(
     breaks = c("Increased Hazard", "Decreased Hazard", "ns"),
-    values = c("red3", "blue3", "grey80")
+    values = c("red3", "blue3", "grey80"),
+    stringsAsFactors = FALSE
 )
 
 # Apply to plot

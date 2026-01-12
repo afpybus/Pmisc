@@ -14,7 +14,9 @@ knitr::opts_chunk$set(
     collapse = TRUE,
     comment = "#>",
     fig.width = 7,
-    fig.height = 5
+    fig.height = 5,
+    fig.path = "figures/comp_means-",
+    dev = "png"
 )
 ```
 
@@ -91,9 +93,10 @@ The companion function `volcano_cm()` creates volcano plots to visualize the res
 ```{r volcano_plot}
 # Define colors for significance
 # "ns" is gray, significant groups get specific colors
-sig_colors <- tibble(
+sig_colors <- data.frame(
     breaks = c("setosa", "versicolor", "ns"),
-    values = c("#FF9999", "#99CC99", "grey80")
+    values = c("#FF9999", "#99CC99", "grey80"),
+    stringsAsFactors = FALSE
 )
 
 # Create volcano plot with custom colors
@@ -181,9 +184,10 @@ Similar to `scm()`, the `sfm()` (Scale Fill Manual) helper allows you to easily 
 
 ```{r custom_colors}
 # Define color scheme for the species (reusing similar colors)
-my_colors <- tibble(
+my_colors <- data.frame(
     breaks = c("setosa", "versicolor", "virginica"),
-    values = c("#FF9999", "#99CC99", "#9999CC")
+    values = c("#FF9999", "#99CC99", "#9999CC"),
+    stringsAsFactors = FALSE
 )
 
 # 2. Apply to DEF_boxplot using sfm()
