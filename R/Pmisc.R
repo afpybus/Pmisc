@@ -320,14 +320,15 @@ reorder_cormat <- function(cormat) {
 
 # STAT FUNCTIONS #########################
 
-#' Compare means across groups with statistical testing
+#' Compare means between two groups with statistical testing
 #'
-#' Perform statistical comparisons between groups for multiple features
+#' Perform pairwise statistical comparisons for multiple features between TWO groups.
+#' For comparing more than two groups, filter your data to two groups at a time.
 #'
 #' @param df Data frame with feature columns and a grouping column
 #' @param feature_column_names Character vector of column names to compare
-#' @param group_column_name Column name for grouping variable
-#' @param compare_means_method Statistical test: "t.test", "anova", "wilcox.test"
+#' @param group_column_name Column name for grouping variable (must have exactly 2 unique values)
+#' @param compare_means_method Statistical test: "t.test" or "wilcox.test" (for two groups)
 #' @param p.adjust_method P-value adjustment: "fdr", "bonferroni", "holm"
 #' @return Data frame with p-values, fold changes, and group means
 #' @export

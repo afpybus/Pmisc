@@ -22,16 +22,18 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-The `comp_means()` function in Pmisc provides a streamlined way to perform statistical comparisons across multiple features between groups. It automatically handles:
+The `comp_means()` function in Pmisc provides a streamlined way to perform **pairwise statistical comparisons** across multiple features **between two groups**. It automatically handles:
 
-- Multiple statistical tests (t-test, Wilcoxon, ANOVA)
+- Statistical tests for two-group comparisons (t-test, Wilcoxon)
 - P-value adjustment for multiple testing
 - Calculation of fold changes and mean differences
 - Sample size validation
 
+**Important:** This function is designed for comparing exactly **two groups**. For multi-group comparisons, filter your data to two groups at a time.
+
 It wraps the powerful **`ggpubr`** package functions to provide a more opinionated, high-throughput workflow.
 
-This vignette demonstrates the function using the classic `iris` dataset.
+This vignette demonstrates the function using the classic `iris` dataset, comparing two species at a time.
 
 ## Load Package
 
@@ -117,28 +119,6 @@ The plot shows:
 - Horizontal line: p = 0.05 significance threshold
 - Colors: Which group has higher values
 - Labels: Features that are significantly different
-
-## Comparing All Three Species
-
-Now let's compare across all three species using ANOVA:
-
-```{r all_species}
-# Use the full iris dataset
-results_all <- comp_means(
-    df = iris,
-    feature_column_names = features,
-    group_column_name = "Species",
-    compare_means_method = "anova",
-    p.adjust_method = "fdr"
-)
-
-# View results
-results_all %>%
-    select(feature, p, p.adj, p.adj.signif) %>%
-    knitr::kable(digits = 10)
-```
-
-All four features show highly significant differences across the three species.
 
 ## Wilcoxon Test for Non-Parametric Data
 
