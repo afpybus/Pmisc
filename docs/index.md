@@ -1,9 +1,11 @@
-# Pmisc
+# Pmisc: Pybus Miscellaneous
 
 [Documentation](https://afpybus.github.io/Pmisc/)
 
-Personal R package containing utility functions for data analysis,
-visualization, statistics, survival analysis, and more.
+A comprehensive collection of utility functions for bioinformatics and
+data analysis. Key features include statistical comparisons, survival
+analysis workflows, publication-ready visualizations (heatmaps, upset
+plots), and general data manipulation tools.
 
 ## Installation
 

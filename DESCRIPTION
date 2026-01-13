@@ -1,6 +1,6 @@
 Package: Pmisc
 Type: Package
-Title: Pmisc: Pybus Miscellaneous
+Title: Pybus Miscellaneous
 Version: 0.1.0
 Author: Alyssa Pybus
 Maintainer: Alyssa Pybus <afpybus@gmail.com>
