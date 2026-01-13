@@ -19,7 +19,8 @@ knitr::opts_chunk$set(
     fig.width = 7,
     fig.height = 5,
     fig.path = "figures/survival_analysis-",
-    dev = "png"
+    dev = "png",
+    warning = FALSE
 )
 ```
 

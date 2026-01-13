@@ -19,7 +19,8 @@ knitr::opts_chunk$set(
     fig.width = 8,
     fig.height = 5,
     fig.path = "figures/upset_plots-",
-    dev = "png"
+    dev = "png",
+    warning = FALSE
 )
 ```
 
@@ -47,7 +48,7 @@ library(tibble)
 
 First, let's create binary (TRUE/FALSE) membership data from the `mtcars` dataset based on various characteristics:
 
-```{r create_binary_data}
+```{r create_binary_data, warning=FALSE}
 # Create binary indicators for different car characteristics
 mtcars_binary <- mtcars %>%
     mutate(
@@ -69,7 +70,7 @@ Each row represents a car, and each column indicates membership in a set (TRUE =
 
 Create a basic upset plot showing all set intersections:
 
-```{r basic_upset}
+```{r basic_upset, warning=FALSE}
 upset_plot(mtcars_binary)
 ```
 
@@ -83,7 +84,7 @@ upset_plot(mtcars_binary)
 
 For presentations or publications, you can adjust text size:
 
-```{r upset_text_size}
+```{r upset_text_size, warning=FALSE}
 upset_plot(mtcars_binary, cex.text = 1.2)
 ```
 
@@ -91,12 +92,12 @@ upset_plot(mtcars_binary, cex.text = 1.2)
 
 The `upset_side()` function creates bar charts showing the total size of each individual set:
 
-```{r side_panel_left}
+```{r side_panel_left, warning=FALSE}
 # Left side panel
 upset_side(mtcars_binary, side = "left")
 ```
 
-```{r side_panel_right}
+```{r side_panel_right, warning=FALSE}
 # Right side panel (without percentages)
 upset_side(mtcars_binary, side = "right", add_percent = FALSE)
 ```
@@ -111,7 +112,7 @@ upset_side(mtcars_binary, side = "right", add_percent = FALSE)
 
 For publication-quality figures, combine the upset plot with a side panel:
 
-```{r combined, fig.width=10, fig.height=5}
+```{r combined, fig.width=10, fig.height=5, warning=FALSE}
 # Create both plots
 main_plot <- upset_plot(mtcars_binary, cex.text = 1.1)
 side_plot <- upset_side(mtcars_binary, side = "left", cex.text = 1.1)
@@ -124,7 +125,7 @@ make_grid(list(side_plot, main_plot), nrow = 1, ncol = 2)
 
 Let's create a more complex example with additional characteristics:
 
-```{r expanded_sets}
+```{r expanded_sets, warning=FALSE}
 # Create more detailed binary classifications
 mtcars_expanded <- mtcars %>%
     mutate(
@@ -143,7 +144,7 @@ upset_plot(mtcars_expanded)
 
 The functions work with any binary indicator, not just TRUE/FALSE. You can specify which value to treat as "TRUE":
 
-```{r custom_values}
+```{r custom_values, warning=FALSE}
 # Create data with 1/0 instead of TRUE/FALSE
 mtcars_numeric <- mtcars_binary * 1 # Convert TRUE/FALSE to 1/0
 
@@ -151,7 +152,7 @@ mtcars_numeric <- mtcars_binary * 1 # Convert TRUE/FALSE to 1/0
 upset_plot(mtcars_numeric, value = 1)
 ```
 
-```{r custom_values_text}
+```{r custom_values_text, warning=FALSE}
 # Works with any value
 mtcars_text <- mtcars_binary %>%
     mutate(across(everything(), ~ ifelse(.x, "Yes", "No")))
@@ -163,7 +164,7 @@ upset_plot(mtcars_text, value = "Yes")
 
 Let's use the `iris` dataset to show which species have above-median measurements:
 
-```{r iris_example}
+```{r iris_example, warning=FALSE}
 # Create binary indicators for above-median measurements
 iris_binary <- iris %>%
     mutate(
@@ -207,7 +208,7 @@ Upset plots offer several advantages:
 
 Control the white space in side panels:
 
-```{r side_expansion}
+```{r side_expansion, warning=FALSE}
 upset_side(mtcars_binary, side = "right", expand = 0.3, add_percent = FALSE)
 ```
 
@@ -215,7 +216,7 @@ upset_side(mtcars_binary, side = "right", expand = 0.3, add_percent = FALSE)
 
 Since the output is a ggplot object, you can add additional styling:
 
-```{r custom_styling}
+```{r custom_styling, warning=FALSE}
 upset_plot(mtcars_binary, cex.text = 1.1) +
     theme_minimal() +
     theme(
