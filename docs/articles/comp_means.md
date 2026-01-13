@@ -45,212 +45,179 @@ library(tibble)
 #> Warning: package 'tibble' was built under R version 4.5.2
 ```
 
-## Basic Usage: Comparing Two Groups
+## Simulating Gene Expression Data
 
-Let’s compare petal and sepal measurements between two species: setosa
-and versicolor.
+To demonstrate the function’s capability with high-dimensional data,
+let’s simulate a gene expression dataset with 50 genes across two
+experimental groups: “Control” and “Treatment”.
 
 ``` r
-# Filter to two species for simplicity
-iris_subset <- iris %>%
-    mutate(Species = as.character(Species)) %>% # Convert factor to character
-    filter(Species %in% c("setosa", "versicolor"))
+set.seed(123) # For reproducibility
 
-# Define features to compare
-features <- c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width")
+# 1. Create sample metadata
+n_samples <- 20 # 10 per group
+metadata <- data.frame(
+    sample_id = paste0("S", 1:n_samples),
+    group = rep(c("Control", "Treatment"), each = n_samples / 2),
+    stringsAsFactors = FALSE
+)
 
-# Compare means between species
+# 2. Simulate gene expression matrix (50 genes)
+# Most genes will be unchanged, some will be differentially expressed
+genes <- paste0("Gene_", 1:50)
+expression_data <- matrix(rnorm(n_samples * 50, mean = 10, sd = 2), nrow = n_samples)
+colnames(expression_data) <- genes
+
+# Convert to data frame and add group info
+df_genes <- cbind(metadata, as.data.frame(expression_data))
+
+# 3. Introduce signal (Differential Expression)
+# Upregulate 5 genes in Treatment
+up_genes <- c("Gene_1", "Gene_2", "Gene_3", "Gene_4", "Gene_5")
+df_genes[df_genes$group == "Treatment", up_genes] <- df_genes[df_genes$group == "Treatment", up_genes] + 3
+
+# Downregulate 5 genes in Treatment
+down_genes <- c("Gene_6", "Gene_7", "Gene_8", "Gene_9", "Gene_10")
+df_genes[df_genes$group == "Treatment", down_genes] <- df_genes[df_genes$group == "Treatment", down_genes] - 3
+
+# View structure
+head(df_genes[, c("sample_id", "group", "Gene_1", "Gene_6", "Gene_50")])
+#>   sample_id   group    Gene_1    Gene_6   Gene_50
+#> 1        S1 Control  8.879049  8.579187 14.610124
+#> 2        S2 Control  9.539645 10.513767  7.750793
+#> 3        S3 Control 13.117417  9.506616  9.389061
+#> 4        S4 Control 10.141017  9.304915  8.966481
+#> 5        S5 Control 10.258575  8.096763 13.024791
+#> 6        S6 Control 13.430130  9.909945  8.461030
+```
+
+## Running the Comparison
+
+Now we run
+[`comp_means()`](https://afpybus.github.io/Pmisc/reference/comp_means.md)
+on all 50 genes simultaneously.
+
+``` r
+# Define all gene columns as features
+features <- genes
+
+# Run comparison
 results <- comp_means(
-    df = iris_subset,
+    df = df_genes,
     feature_column_names = features,
-    group_column_name = "Species",
+    group_column_name = "group",
     compare_means_method = "t.test",
     p.adjust_method = "fdr"
 )
 
-# View results
+# View top significant results
 results %>%
-    select(
-        feature, group1, group2, mean.group1, mean.group2,
-        mean_dif, p, p.adj, p.adj.signif
-    ) %>%
-    knitr::kable(digits = 3)
+    filter(p.adj < 0.05) %>%
+    arrange(p.adj) %>%
+    select(feature, group1, group2, mean_dif, p.adj, p.adj.signif) %>%
+    head(10) %>%
+    knitr::kable(digits = 4)
 ```
 
-| feature | group1 | group2 | mean.group1 | mean.group2 | mean_dif | p | p.adj | p.adj.signif |
-|:---|:---|:---|---:|---:|---:|---:|---:|:---|
-| Sepal.Length | setosa | versicolor | 5.006 | 5.936 | -0.930 | 0 | 0 | \*\*\*\* |
-| Sepal.Width | setosa | versicolor | 3.428 | 2.770 | 0.658 | 0 | 0 | \*\*\*\* |
-| Petal.Length | setosa | versicolor | 1.462 | 4.260 | -2.798 | 0 | 0 | \*\*\*\* |
-| Petal.Width | setosa | versicolor | 0.246 | 1.326 | -1.080 | 0 | 0 | \*\*\*\* |
-
-## Understanding the Output
-
-The
-[`comp_means()`](https://afpybus.github.io/Pmisc/reference/comp_means.md)
-function returns a data frame with:
-
-- **feature**: The variable being compared
-- **group1**, **group2**: The two groups being compared
-- **mean.group1**, **mean.group2**: Mean values for each group
-- **mean_dif**: Difference between means (group1 - group2)
-- **log2fc**: Log2 fold change
-- **p**: Raw p-value from statistical test
-- **p.adj**: Adjusted p-value (FDR correction)
-- **p.adj.signif**: Significance level notation (ns, *, **,*** ,
-  \*\*\*\*)
-- **sig_increased_in**: Which group has higher values (if significant)
+| feature | group1  | group2    | mean_dif |  p.adj | p.adj.signif |
+|:--------|:--------|:----------|---------:|-------:|:-------------|
+| Gene_2  | Control | Treatment |  -4.4932 | 0.0005 | \*\*\*       |
+| Gene_6  | Control | Treatment |   2.8541 | 0.0080 | \*\*         |
+| Gene_10 | Control | Treatment |   3.5345 | 0.0087 | \*\*         |
+| Gene_3  | Control | Treatment |  -3.4608 | 0.0099 | \*\*         |
+| Gene_5  | Control | Treatment |  -3.2480 | 0.0099 | \*\*         |
+| Gene_1  | Control | Treatment |  -3.2680 | 0.0149 | \*           |
+| Gene_9  | Control | Treatment |   3.4942 | 0.0186 | \*           |
 
 ## Volcano Plot Visualization
 
-The companion function
-[`volcano_cm()`](https://afpybus.github.io/Pmisc/reference/volcano_cm.md)
-creates volcano plots to visualize the results:
+With 50 variables, the volcano plot becomes a powerful tool to visualize
+the overall landscape of differential expression.
 
 ``` r
-# Define colors for significance
-# "ns" is gray, significant groups get specific colors
+# Define colors: Control (blue), Treatment (red), ns (gray)
+# Note: "Control" is the reference, so "Treatment" is the comparison group
 sig_colors <- data.frame(
-    breaks = c("setosa", "versicolor", "ns"),
-    values = c("#FF9999", "#99CC99", "grey80"),
+    breaks = c("Control", "Treatment", "ns"),
+    values = c("dodgerblue", "firebrick", "grey80"),
     stringsAsFactors = FALSE
 )
 
-# Create volcano plot with custom colors
+# Create volcano plot
 volcano_cm(
     comp_means_output = results,
     x = "mean_dif",
     max_overlaps = 20
 ) +
-    scm(sig_colors) + # Apply custom color scale
-    ggtitle("Setosa vs Versicolor: Feature Differences")
-#> Warning in geom_text(aes(x = max(x_var) - 0.07 * sum(range(abs(x_var))), : All aesthetics have length 1, but the data has 4 rows.
+    scm(sig_colors) +
+    ggtitle("Differential Expression: Treatment vs Control")
+#> Warning in geom_text(aes(x = max(x_var) - 0.07 * sum(range(abs(x_var))), : All aesthetics have length 1, but the data has 50 rows.
 #> ℹ Please consider using `annotate()` or provide this layer with data containing
 #>   a single row.
 ```
 
 ![](figures/comp_means-volcano_plot-1.png)
 
-The plot shows:
+The plot clearly shows our simulated signal: - **Red points (Right)**:
+Genes upregulated in Treatment (Gene_1 to Gene_5) - **Blue points
+(Left)**: Genes higher in Control (meaning downregulated in Treatment)
+(Gene_6 to Gene_10) - **Gray points (Bottom/Middle)**: Unchanged
+background genes
 
-- X-axis: Mean difference between groups
-- Y-axis: -log10(adjusted p-value)
-- Horizontal line: p = 0.05 significance threshold
-- Colors: Which group has higher values
-- Labels: Features that are significantly different
+## Visualizing Top Hits
 
-## Wilcoxon Test for Non-Parametric Data
-
-For non-normal distributions, use the Wilcoxon rank-sum test:
+We can verify our top hits using boxplots.
 
 ``` r
-# Compare using Wilcoxon test
-results_wilcox <- comp_means(
-    df = iris_subset,
-    feature_column_names = features,
-    group_column_name = "Species",
-    compare_means_method = "wilcox.test",
-    p.adjust_method = "bonferroni"
-)
-
-# Compare p-values from t-test vs Wilcoxon
-comparison <- data.frame(
-    feature = features,
-    t_test_p = results$p.adj,
-    wilcox_p = results_wilcox$p.adj
-)
-
-knitr::kable(comparison, digits = 5)
-```
-
-| feature      | t_test_p | wilcox_p |
-|:-------------|---------:|---------:|
-| Sepal.Length |        0 |        0 |
-| Sepal.Width  |        0 |        0 |
-| Petal.Length |        0 |        0 |
-| Petal.Width  |        0 |        0 |
-
-## Visualizing Individual Features
-
-Use
-[`DEF_boxplot()`](https://afpybus.github.io/Pmisc/reference/DEF_boxplot.md)
-to visualize specific features with p-value annotations:
-
-``` r
-# Create boxplot for Petal.Length
-DEF_boxplot(
-    data = iris_subset,
+# Visualize top upregulated gene
+p1 <- DEF_boxplot(
+    data = df_genes,
     DE = results,
-    feature = "Petal.Length",
-    grouping = "Species"
-) +
-    ggtitle("Petal Length: Setosa vs Versicolor")
+    feature = "Gene_1", # Known upregulated
+    grouping = "group"
+) + ggtitle("Gene_1 (Upregulated)")
+
+# Visualize top downregulated gene
+p2 <- DEF_boxplot(
+    data = df_genes,
+    DE = results,
+    feature = "Gene_6", # Known downregulated
+    grouping = "group"
+) + ggtitle("Gene_6 (Downregulated)")
+
+# Arrange side by side
+ggpubr::ggarrange(p1, p2, ncol = 2)
 ```
 
 ![](figures/comp_means-boxplot-1.png)
 
-## Customizing Colors with sfm()
+## Non-Parametric Tests (Wilcoxon)
 
-Similar to [`scm()`](https://afpybus.github.io/Pmisc/reference/scm.md),
-the [`sfm()`](https://afpybus.github.io/Pmisc/reference/sfm.md) (Scale
-Fill Manual) helper allows you to easily apply custom fill colors using
-the same tibble format.
+We can also perform the same broad comparison using the Wilcoxon test.
 
 ``` r
-# Define color scheme for the species (reusing similar colors)
-my_colors <- data.frame(
-    breaks = c("setosa", "versicolor", "virginica"),
-    values = c("#FF9999", "#99CC99", "#9999CC"),
-    stringsAsFactors = FALSE
+# Run Wilcoxon test on all genes
+results_wilcox <- comp_means(
+    df = df_genes,
+    feature_column_names = features,
+    group_column_name = "group",
+    compare_means_method = "wilcox.test",
+    p.adjust_method = "fdr"
 )
 
-# 2. Apply to DEF_boxplot using sfm()
-DEF_boxplot(
-    data = iris_subset,
-    DE = results,
-    feature = "Petal.Length",
-    grouping = "Species"
-) +
-    sfm(my_colors) + # Apply custom fill colors
-    ggtitle("Petal Length with Custom Colors")
+# Compare p-values for a specific gene (e.g., Gene_1)
+comparison <- data.frame(
+    feature = "Gene_1",
+    t_test_p = format.pval(results$p.adj[results$feature == "Gene_1"], digits = 3, eps = 0.001),
+    wilcox_p = format.pval(results_wilcox$p.adj[results_wilcox$feature == "Gene_1"], digits = 3, eps = 0.001)
+)
+
+knitr::kable(comparison)
 ```
 
-![](figures/comp_means-custom_colors-1.png)
-
-## P-Value Adjustment Methods
-
-The function supports multiple adjustment methods:
-
-``` r
-# Compare different adjustment methods
-adj_methods <- c("fdr", "bonferroni", "holm")
-
-adjustment_comparison <- lapply(adj_methods, function(method) {
-    res <- comp_means(
-        df = iris_subset,
-        feature_column_names = "Petal.Length",
-        group_column_name = "Species",
-        compare_means_method = "t.test",
-        p.adjust_method = method
-    )
-    data.frame(
-        method = method,
-        raw_p = res$p,
-        adj_p = res$p.adj
-    )
-}) %>% bind_rows()
-
-knitr::kable(adjustment_comparison, digits = 10)
-```
-
-| method     | raw_p | adj_p |
-|:-----------|------:|------:|
-| fdr        |     0 |     0 |
-| bonferroni |     0 |     0 |
-| holm       |     0 |     0 |
-
-**Note**: For a single comparison, all methods give the same result. The
-differences appear when comparing multiple features simultaneously.
+| feature | t_test_p | wilcox_p |
+|:--------|:---------|:---------|
+| Gene_1  | 0.0149   | 0.0328   |
 
 ## Summary
 
