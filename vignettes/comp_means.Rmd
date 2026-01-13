@@ -40,7 +40,7 @@ This vignette demonstrates the function using a **simulated gene expression data
 
 ## Load Package
 
-```{r load}
+```{r load, warning=FALSE}
 library(Pmisc)
 library(dplyr)
 library(ggplot2)
@@ -114,7 +114,7 @@ results %>%
 
 With 50 variables, the volcano plot becomes a powerful tool to visualize the overall landscape of differential expression.
 
-```{r volcano_plot}
+```{r volcano_plot, warning=FALSE}
 # Define colors: Control (blue), Treatment (red), ns (gray)
 # Note: "Control" is the reference, so "Treatment" is the comparison group
 sig_colors <- data.frame(
@@ -142,7 +142,7 @@ The plot clearly shows our simulated signal:
 
 We can verify our top hits using boxplots.
 
-```{r boxplot, fig.height=4}
+```{r boxplot, fig.height=4, warning=FALSE}
 # Visualize top upregulated gene
 p1 <- DEF_boxplot(
     data = df_genes,

@@ -43,7 +43,7 @@ using common training datasets:
 - **[Statistical Comparisons with
   comp_means](https://afpybus.github.io/Pmisc/articles/comp_means.html)**:
   Learn how to compare means across groups, perform statistical tests,
-  and create volcano plots using the iris dataset.
+  and create volcano plots using simulated gene expression data.
 
 - **[Set Visualization with Upset
   Plots](https://afpybus.github.io/Pmisc/articles/upset_plots.html)**:

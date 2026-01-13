@@ -22,8 +22,10 @@ a time.
 It wraps the powerful **`ggpubr`** package functions to provide a more
 opinionated, high-throughput workflow.
 
-This vignette demonstrates the function using the classic `iris`
-dataset, comparing two species at a time.
+This vignette demonstrates the function using a **simulated gene
+expression dataset** with 50 genes across two experimental groups
+(Control vs Treatment), showcasing the function’s capability for
+high-throughput multivariate analysis.
 
 ## Load Package
 

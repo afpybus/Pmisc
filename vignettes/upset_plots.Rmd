@@ -36,7 +36,7 @@ This vignette demonstrates these functions using the `mtcars` dataset.
 
 ## Load Packages
 
-```{r load}
+```{r load, warning=FALSE}
 library(Pmisc)
 library(dplyr)
 library(ggplot2)
