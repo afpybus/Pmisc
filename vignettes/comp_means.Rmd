@@ -199,34 +199,6 @@ DEF_boxplot(
     ggtitle("Petal Length with Custom Colors")
 ```
 
-## P-Value Adjustment Methods
-
-The function supports multiple adjustment methods:
-
-```{r adjustment_methods}
-# Compare different adjustment methods
-adj_methods <- c("fdr", "bonferroni", "holm")
-
-adjustment_comparison <- lapply(adj_methods, function(method) {
-    res <- comp_means(
-        df = iris_subset,
-        feature_column_names = "Petal.Length",
-        group_column_name = "Species",
-        compare_means_method = "t.test",
-        p.adjust_method = method
-    )
-    data.frame(
-        method = method,
-        raw_p = res$p,
-        adj_p = res$p.adj
-    )
-}) %>% bind_rows()
-
-knitr::kable(adjustment_comparison, digits = 10)
-```
-
-**Note**: For a single comparison, all methods give the same result. The differences appear when comparing multiple features simultaneously.
-
 ## Summary
 
 The `comp_means()` function provides:
