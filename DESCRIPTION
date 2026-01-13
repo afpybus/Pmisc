@@ -1,11 +1,12 @@
 Package: Pmisc
 Type: Package
-Title: Personal R Utility Functions
+Title: Pmisc: Pybus Miscellaneous
 Version: 0.1.0
 Author: Alyssa Pybus
 Maintainer: Alyssa Pybus <afpybus@gmail.com>
-Description: A collection of personal utility functions for data analysis,
-    visualization, statistics, survival analysis, and more.
+Description: A comprehensive collection of utility functions for bioinformatics and data analysis.
+    Key features include statistical comparisons, survival analysis workflows, publication-ready
+    visualizations (heatmaps, upset plots), and general data manipulation tools.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
