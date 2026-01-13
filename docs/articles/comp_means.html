@@ -71,7 +71,7 @@ Pybus</h4>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The <code>comp_means()</code> function in Pmisc provides a
+<p>The <code><a href="../reference/comp_means.html">comp_means()</a></code> function in Pmisc provides a
 streamlined way to perform <strong>pairwise statistical
 comparisons</strong> across multiple features <strong>between two
 groups</strong>. It automatically handles:</p>
@@ -124,7 +124,7 @@ setosa and versicolor.</p>
 <span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Sepal.Length"</span>, <span class="st">"Sepal.Width"</span>, <span class="st">"Petal.Length"</span>, <span class="st">"Petal.Width"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Compare means between species</span></span>
-<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu">comp_means</span><span class="op">(</span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/comp_means.html">comp_means</a></span><span class="op">(</span></span>
 <span>    df <span class="op">=</span> <span class="va">iris_subset</span>,</span>
 <span>    feature_column_names <span class="op">=</span> <span class="va">features</span>,</span>
 <span>    group_column_name <span class="op">=</span> <span class="st">"Species"</span>,</span>
@@ -213,7 +213,7 @@ setosa and versicolor.</p>
 <div class="section level2">
 <h2 id="understanding-the-output">Understanding the Output<a class="anchor" aria-label="anchor" href="#understanding-the-output"></a>
 </h2>
-<p>The <code>comp_means()</code> function returns a data frame with:</p>
+<p>The <code><a href="../reference/comp_means.html">comp_means()</a></code> function returns a data frame with:</p>
 <ul>
 <li>
 <strong>feature</strong>: The variable being compared</li>
@@ -243,7 +243,7 @@ significant)</li>
 <div class="section level2">
 <h2 id="volcano-plot-visualization">Volcano Plot Visualization<a class="anchor" aria-label="anchor" href="#volcano-plot-visualization"></a>
 </h2>
-<p>The companion function <code>volcano_cm()</code> creates volcano
+<p>The companion function <code><a href="../reference/volcano_cm.html">volcano_cm()</a></code> creates volcano
 plots to visualize the results:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define colors for significance</span></span>
@@ -255,12 +255,12 @@ plots to visualize the results:</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create volcano plot with custom colors</span></span>
-<span><span class="fu">volcano_cm</span><span class="op">(</span></span>
+<span><span class="fu"><a href="../reference/volcano_cm.html">volcano_cm</a></span><span class="op">(</span></span>
 <span>    comp_means_output <span class="op">=</span> <span class="va">results</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">"mean_dif"</span>,</span>
 <span>    max_overlaps <span class="op">=</span> <span class="fl">20</span></span>
 <span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">scm</span><span class="op">(</span><span class="va">sig_colors</span><span class="op">)</span> <span class="op">+</span> <span class="co"># Apply custom color scale</span></span>
+<span>    <span class="fu"><a href="../reference/scm.html">scm</a></span><span class="op">(</span><span class="va">sig_colors</span><span class="op">)</span> <span class="op">+</span> <span class="co"># Apply custom color scale</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Setosa vs Versicolor: Feature Differences"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in geom_text(aes(x = max(x_var) - 0.07 * sum(range(abs(x_var))), : All aesthetics have length 1, but the data has 4 rows.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please consider using `annotate()` or provide this layer with data containing</span></span>
@@ -281,7 +281,7 @@ plots to visualize the results:</p>
 <p>For non-normal distributions, use the Wilcoxon rank-sum test:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Compare using Wilcoxon test</span></span>
-<span><span class="va">results_wilcox</span> <span class="op">&lt;-</span> <span class="fu">comp_means</span><span class="op">(</span></span>
+<span><span class="va">results_wilcox</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/comp_means.html">comp_means</a></span><span class="op">(</span></span>
 <span>    df <span class="op">=</span> <span class="va">iris_subset</span>,</span>
 <span>    feature_column_names <span class="op">=</span> <span class="va">features</span>,</span>
 <span>    group_column_name <span class="op">=</span> <span class="st">"Species"</span>,</span>
@@ -330,11 +330,11 @@ plots to visualize the results:</p>
 <div class="section level2">
 <h2 id="visualizing-individual-features">Visualizing Individual Features<a class="anchor" aria-label="anchor" href="#visualizing-individual-features"></a>
 </h2>
-<p>Use <code>DEF_boxplot()</code> to visualize specific features with
+<p>Use <code><a href="../reference/DEF_boxplot.html">DEF_boxplot()</a></code> to visualize specific features with
 p-value annotations:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create boxplot for Petal.Length</span></span>
-<span><span class="fu">DEF_boxplot</span><span class="op">(</span></span>
+<span><span class="fu"><a href="../reference/DEF_boxplot.html">DEF_boxplot</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">iris_subset</span>,</span>
 <span>    DE <span class="op">=</span> <span class="va">results</span>,</span>
 <span>    feature <span class="op">=</span> <span class="st">"Petal.Length"</span>,</span>
@@ -346,7 +346,7 @@ p-value annotations:</p>
 <div class="section level2">
 <h2 id="customizing-colors-with-sfm">Customizing Colors with sfm()<a class="anchor" aria-label="anchor" href="#customizing-colors-with-sfm"></a>
 </h2>
-<p>Similar to <code>scm()</code>, the <code>sfm()</code> (Scale Fill
+<p>Similar to <code><a href="../reference/scm.html">scm()</a></code>, the <code><a href="../reference/sfm.html">sfm()</a></code> (Scale Fill
 Manual) helper allows you to easily apply custom fill colors using the
 same tibble format.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -358,13 +358,13 @@ same tibble format.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># 2. Apply to DEF_boxplot using sfm()</span></span>
-<span><span class="fu">DEF_boxplot</span><span class="op">(</span></span>
+<span><span class="fu"><a href="../reference/DEF_boxplot.html">DEF_boxplot</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">iris_subset</span>,</span>
 <span>    DE <span class="op">=</span> <span class="va">results</span>,</span>
 <span>    feature <span class="op">=</span> <span class="st">"Petal.Length"</span>,</span>
 <span>    grouping <span class="op">=</span> <span class="st">"Species"</span></span>
 <span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">sfm</span><span class="op">(</span><span class="va">my_colors</span><span class="op">)</span> <span class="op">+</span> <span class="co"># Apply custom fill colors</span></span>
+<span>    <span class="fu"><a href="../reference/sfm.html">sfm</a></span><span class="op">(</span><span class="va">my_colors</span><span class="op">)</span> <span class="op">+</span> <span class="co"># Apply custom fill colors</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Petal Length with Custom Colors"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/comp_means-custom_colors-1.png" class="r-plt" alt="" width="672"></p>
 </div>
@@ -377,7 +377,7 @@ same tibble format.</p>
 <span><span class="va">adj_methods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fdr"</span>, <span class="st">"bonferroni"</span>, <span class="st">"holm"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">adjustment_comparison</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">adj_methods</span>, <span class="kw">function</span><span class="op">(</span><span class="va">method</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">comp_means</span><span class="op">(</span></span>
+<span>    <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/comp_means.html">comp_means</a></span><span class="op">(</span></span>
 <span>        df <span class="op">=</span> <span class="va">iris_subset</span>,</span>
 <span>        feature_column_names <span class="op">=</span> <span class="st">"Petal.Length"</span>,</span>
 <span>        group_column_name <span class="op">=</span> <span class="st">"Species"</span>,</span>
@@ -423,7 +423,7 @@ simultaneously.</p>
 <div class="section level2">
 <h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h2>
-<p>The <code>comp_means()</code> function provides:</p>
+<p>The <code><a href="../reference/comp_means.html">comp_means()</a></code> function provides:</p>
 <ol style="list-style-type: decimal">
 <li>
 <strong>Flexible testing</strong>: Support for t-test, Wilcoxon, and
@@ -449,17 +449,17 @@ studies, and comparing measurements across experimental groups.</p>
 </h2>
 <ul>
 <li>
-<code>p.readjust()</code>: Re-adjust p-values from comp_means
+<code><a href="../reference/p.readjust.html">p.readjust()</a></code>: Re-adjust p-values from comp_means
 output</li>
 <li>
-<code>volcano_cm()</code>: Create volcano plots</li>
+<code><a href="../reference/volcano_cm.html">volcano_cm()</a></code>: Create volcano plots</li>
 <li>
-<code>volcano_cm_labelall()</code>: Volcano plot labeling all
+<code><a href="../reference/volcano_cm_labelall.html">volcano_cm_labelall()</a></code>: Volcano plot labeling all
 points</li>
 <li>
-<code>DEF_boxplot()</code>: Boxplot with p-value annotations</li>
+<code><a href="../reference/DEF_boxplot.html">DEF_boxplot()</a></code>: Boxplot with p-value annotations</li>
 <li>
-<code>DEF_boxplot_sig()</code>: Boxplot with significance stars</li>
+<code><a href="../reference/DEF_boxplot_sig.html">DEF_boxplot_sig()</a></code>: Boxplot with significance stars</li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

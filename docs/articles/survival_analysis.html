@@ -268,14 +268,14 @@ with advanced lung cancer:</p>
 <div class="section level2">
 <h2 id="cox-proportional-hazards-analysis">Cox Proportional Hazards Analysis<a class="anchor" aria-label="anchor" href="#cox-proportional-hazards-analysis"></a>
 </h2>
-<p>The <code>coxph_all()</code> function tests multiple features
+<p>The <code><a href="../reference/coxph_all.html">coxph_all()</a></code> function tests multiple features
 simultaneously for association with survival:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define features to test</span></span>
 <span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"sex_binary"</span>, <span class="st">"ph.ecog"</span>, <span class="st">"ph.karno"</span>, <span class="st">"pat.karno"</span>, <span class="st">"wt.loss"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Run Cox proportional hazards for all features</span></span>
-<span><span class="va">cox_results</span> <span class="op">&lt;-</span> <span class="fu">coxph_all</span><span class="op">(</span></span>
+<span><span class="va">cox_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/coxph_all.html">coxph_all</a></span><span class="op">(</span></span>
 <span>    df <span class="op">=</span> <span class="va">lung_prep</span>,</span>
 <span>    feature.names <span class="op">=</span> <span class="va">features</span>,</span>
 <span>    time_col <span class="op">=</span> <span class="st">"time"</span>,</span>
@@ -391,7 +391,7 @@ status = worse survival)</li>
 </h2>
 <p>Visualize the Cox regression results with a volcano plot:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">survival_volcano</span><span class="op">(</span><span class="va">cox_results</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/survival_volcano.html">survival_volcano</a></span><span class="op">(</span><span class="va">cox_results</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Survival Analysis: Lung Cancer Dataset"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/survival_analysis-survival_volcano-1.png" class="r-plt" alt="" width="672"></p>
 <p><strong>Reading the plot:</strong></p>
@@ -406,7 +406,7 @@ status = worse survival)</li>
 <h3 id="customizing-volcano-colors-with-scm">Customizing Volcano Colors with scm()<a class="anchor" aria-label="anchor" href="#customizing-volcano-colors-with-scm"></a>
 </h3>
 <p>You can control the exact colors of the volcano plot using the
-<code>scm()</code> helper:</p>
+<code><a href="../reference/scm.html">scm()</a></code> helper:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define custom colors for hazard categories</span></span>
 <span><span class="va">volcano_colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -416,8 +416,8 @@ status = worse survival)</li>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Apply to plot</span></span>
-<span><span class="fu">survival_volcano</span><span class="op">(</span><span class="va">cox_results</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu">scm</span><span class="op">(</span><span class="va">volcano_colors</span><span class="op">)</span> <span class="op">+</span> <span class="co"># Apply custom color scale</span></span>
+<span><span class="fu"><a href="../reference/survival_volcano.html">survival_volcano</a></span><span class="op">(</span><span class="va">cox_results</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/scm.html">scm</a></span><span class="op">(</span><span class="va">volcano_colors</span><span class="op">)</span> <span class="op">+</span> <span class="co"># Apply custom color scale</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Survival Volcano with Custom Colors"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/survival_analysis-custom_volcano-1.png" class="r-plt" alt="" width="672"></p>
 </div>
@@ -425,7 +425,7 @@ status = worse survival)</li>
 <div class="section level2">
 <h2 id="kaplan-meier-survival-curves">Kaplan-Meier Survival Curves<a class="anchor" aria-label="anchor" href="#kaplan-meier-survival-curves"></a>
 </h2>
-<p>The <code>KM_categorical()</code> function creates Kaplan-Meier
+<p>The <code><a href="../reference/KM_categorical.html">KM_categorical()</a></code> function creates Kaplan-Meier
 curves for categorical or continuous variables:</p>
 <div class="section level3">
 <h3 id="binary-variable-sex">Binary Variable: Sex<a class="anchor" aria-label="anchor" href="#binary-variable-sex"></a>
@@ -436,7 +436,7 @@ curves for categorical or continuous variables:</p>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>sex_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">sex_binary</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"Female"</span>, <span class="st">"Male"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Kaplan-Meier plot by sex</span></span>
-<span><span class="fu">KM_categorical</span><span class="op">(</span></span>
+<span><span class="fu"><a href="../reference/KM_categorical.html">KM_categorical</a></span><span class="op">(</span></span>
 <span>    df <span class="op">=</span> <span class="va">lung_km</span>,</span>
 <span>    gene <span class="op">=</span> <span class="st">"sex"</span>, <span class="co"># Column name prefix</span></span>
 <span>    time_scale <span class="op">=</span> <span class="st">"Time (days)"</span>,</span>
@@ -447,11 +447,11 @@ curves for categorical or continuous variables:</p>
 <div class="section level3">
 <h3 id="continuous-variable-age">Continuous Variable: Age<a class="anchor" aria-label="anchor" href="#continuous-variable-age"></a>
 </h3>
-<p>For continuous variables, <code>KM_categorical()</code> automatically
+<p>For continuous variables, <code><a href="../reference/KM_categorical.html">KM_categorical()</a></code> automatically
 splits at the median:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Kaplan-Meier plot for age (split at median)</span></span>
-<span><span class="fu">KM_categorical</span><span class="op">(</span></span>
+<span><span class="fu"><a href="../reference/KM_categorical.html">KM_categorical</a></span><span class="op">(</span></span>
 <span>    df <span class="op">=</span> <span class="va">lung_prep</span>,</span>
 <span>    gene <span class="op">=</span> <span class="st">"age"</span>,</span>
 <span>    time_scale <span class="op">=</span> <span class="st">"Time (days)"</span>,</span>
@@ -469,7 +469,7 @@ splits at the median:</p>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">ph.ecog</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>ph.ecog_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">ph.ecog</span> <span class="op">&lt;=</span> <span class="fl">1</span>, <span class="st">"Good (0-1)"</span>, <span class="st">"Poor (2-3)"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">KM_categorical</span><span class="op">(</span></span>
+<span><span class="fu"><a href="../reference/KM_categorical.html">KM_categorical</a></span><span class="op">(</span></span>
 <span>    df <span class="op">=</span> <span class="va">lung_ecog</span>,</span>
 <span>    gene <span class="op">=</span> <span class="st">"ph.ecog"</span>,</span>
 <span>    time_scale <span class="op">=</span> <span class="st">"Time (days)"</span>,</span>
@@ -482,10 +482,10 @@ splits at the median:</p>
 <div class="section level2">
 <h2 id="gene-expression-vs-overall-survival">Gene Expression vs Overall Survival<a class="anchor" aria-label="anchor" href="#gene-expression-vs-overall-survival"></a>
 </h2>
-<p>The <code>gene_OS_scatter()</code> function creates scatter plots
+<p>The <code><a href="../reference/gene_OS_scatter.html">gene_OS_scatter()</a></code> function creates scatter plots
 showing the relationship between a feature and survival time:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">gene_OS_scatter</span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gene_OS_scatter.html">gene_OS_scatter</a></span><span class="op">(</span></span>
 <span>    df <span class="op">=</span> <span class="va">lung_prep</span>,</span>
 <span>    gene <span class="op">=</span> <span class="st">"age"</span></span>
 <span><span class="op">)</span> <span class="op">+</span></span>
@@ -511,7 +511,7 @@ showing the relationship between a feature and survival time:</p>
 <code class="sourceCode R"><span><span class="co"># Another example: Weight loss vs survival</span></span>
 <span><span class="va">lung_wt</span> <span class="op">&lt;-</span> <span class="va">lung_prep</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">wt.loss</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">gene_OS_scatter</span><span class="op">(</span></span>
+<span><span class="fu"><a href="../reference/gene_OS_scatter.html">gene_OS_scatter</a></span><span class="op">(</span></span>
 <span>    df <span class="op">=</span> <span class="va">lung_wt</span>,</span>
 <span>    gene <span class="op">=</span> <span class="st">"wt.loss"</span></span>
 <span><span class="op">)</span> <span class="op">+</span></span>
@@ -535,7 +535,7 @@ showing the relationship between a feature and survival time:</p>
 <span><span class="co"># 2. Test multiple features</span></span>
 <span><span class="va">features_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"Female"</span>, <span class="st">"Elderly"</span>, <span class="st">"ph.ecog"</span>, <span class="st">"ph.karno"</span>, <span class="st">"meal.cal"</span>, <span class="st">"wt.loss"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">cox_results_full</span> <span class="op">&lt;-</span> <span class="fu">coxph_all</span><span class="op">(</span></span>
+<span><span class="va">cox_results_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/coxph_all.html">coxph_all</a></span><span class="op">(</span></span>
 <span>    df <span class="op">=</span> <span class="va">lung_analysis</span>,</span>
 <span>    feature.names <span class="op">=</span> <span class="va">features_test</span>,</span>
 <span>    time_col <span class="op">=</span> <span class="st">"time"</span>,</span>
@@ -579,7 +579,7 @@ showing the relationship between a feature and survival time:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># 4. Visualize results</span></span>
-<span><span class="fu">survival_volcano</span><span class="op">(</span><span class="va">cox_results_full</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="../reference/survival_volcano.html">survival_volcano</a></span><span class="op">(</span><span class="va">cox_results_full</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Survival Analysis: Comprehensive Feature Testing"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/survival_analysis-complete_workflow-1.png" class="r-plt" alt="" width="672"></p>
 </div>
@@ -657,7 +657,7 @@ increases risk by ~62%</li>
 <p>The Pmisc survival analysis functions provide:</p>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Batch testing</strong> with <code>coxph_all()</code> - Test
+<strong>Batch testing</strong> with <code><a href="../reference/coxph_all.html">coxph_all()</a></code> - Test
 many features at once</li>
 <li>
 <strong>Automatic correction</strong> - FDR adjustment for multiple
@@ -685,15 +685,15 @@ insufficient data</li>
 </h2>
 <ul>
 <li>
-<code>coxph_all()</code>: Cox proportional hazards for multiple
+<code><a href="../reference/coxph_all.html">coxph_all()</a></code>: Cox proportional hazards for multiple
 features</li>
 <li>
-<code>survival_volcano()</code>: Volcano plot for survival
+<code><a href="../reference/survival_volcano.html">survival_volcano()</a></code>: Volcano plot for survival
 results</li>
 <li>
-<code>KM_categorical()</code>: Kaplan-Meier survival curves</li>
+<code><a href="../reference/KM_categorical.html">KM_categorical()</a></code>: Kaplan-Meier survival curves</li>
 <li>
-<code>gene_OS_scatter()</code>: Gene expression vs overall survival
+<code><a href="../reference/gene_OS_scatter.html">gene_OS_scatter()</a></code>: Gene expression vs overall survival
 scatter plot</li>
 </ul>
 </div>

@@ -1,4 +1,5 @@
 # Pmisc
+[Documentation](https://afpybus.github.io/Pmisc/)
 
 Personal R package containing utility functions for data analysis, visualization, statistics, survival analysis, and more.
 
