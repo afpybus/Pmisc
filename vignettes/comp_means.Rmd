@@ -125,26 +125,40 @@ The plot shows:
 
 ## Wilcoxon Test for Non-Parametric Data
 
-For non-normal distributions, use the Wilcoxon rank-sum test:
+For non-normal distributions, use the Wilcoxon rank-sum test. Let's compare versicolor vs virginica to see more moderate p-values:
 
 ```{r wilcoxon}
+# Filter to versicolor vs virginica for more moderate p-values
+iris_subset2 <- iris %>%
+    mutate(Species = as.character(Species)) %>%
+    filter(Species %in% c("versicolor", "virginica"))
+
+# Compare using t-test
+results_ttest <- comp_means(
+    df = iris_subset2,
+    feature_column_names = features,
+    group_column_name = "Species",
+    compare_means_method = "t.test",
+    p.adjust_method = "fdr"
+)
+
 # Compare using Wilcoxon test
 results_wilcox <- comp_means(
-    df = iris_subset,
+    df = iris_subset2,
     feature_column_names = features,
     group_column_name = "Species",
     compare_means_method = "wilcox.test",
-    p.adjust_method = "bonferroni"
+    p.adjust_method = "fdr"
 )
 
 # Compare p-values from t-test vs Wilcoxon
 comparison <- data.frame(
     feature = features,
-    t_test_p = results$p.adj,
-    wilcox_p = results_wilcox$p.adj
+    t_test_p = format.pval(results_ttest$p.adj, digits = 3, eps = 0.001),
+    wilcox_p = format.pval(results_wilcox$p.adj, digits = 3, eps = 0.001)
 )
 
-knitr::kable(comparison, digits = 5)
+knitr::kable(comparison)
 ```
 
 ## Visualizing Individual Features

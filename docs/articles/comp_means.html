@@ -280,51 +280,66 @@ plots to visualize the results:</p>
 <div class="section level2">
 <h2 id="wilcoxon-test-for-non-parametric-data">Wilcoxon Test for Non-Parametric Data<a class="anchor" aria-label="anchor" href="#wilcoxon-test-for-non-parametric-data"></a>
 </h2>
-<p>For non-normal distributions, use the Wilcoxon rank-sum test:</p>
+<p>For non-normal distributions, use the Wilcoxon rank-sum test. Let’s
+compare versicolor vs virginica to see more moderate p-values:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Compare using Wilcoxon test</span></span>
+<code class="sourceCode R"><span><span class="co"># Filter to versicolor vs virginica for more moderate p-values</span></span>
+<span><span class="va">iris_subset2</span> <span class="op">&lt;-</span> <span class="va">iris</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">Species</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">Species</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"versicolor"</span>, <span class="st">"virginica"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Compare using t-test</span></span>
+<span><span class="va">results_ttest</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/comp_means.html">comp_means</a></span><span class="op">(</span></span>
+<span>    df <span class="op">=</span> <span class="va">iris_subset2</span>,</span>
+<span>    feature_column_names <span class="op">=</span> <span class="va">features</span>,</span>
+<span>    group_column_name <span class="op">=</span> <span class="st">"Species"</span>,</span>
+<span>    compare_means_method <span class="op">=</span> <span class="st">"t.test"</span>,</span>
+<span>    p.adjust_method <span class="op">=</span> <span class="st">"fdr"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Compare using Wilcoxon test</span></span>
 <span><span class="va">results_wilcox</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/comp_means.html">comp_means</a></span><span class="op">(</span></span>
-<span>    df <span class="op">=</span> <span class="va">iris_subset</span>,</span>
+<span>    df <span class="op">=</span> <span class="va">iris_subset2</span>,</span>
 <span>    feature_column_names <span class="op">=</span> <span class="va">features</span>,</span>
 <span>    group_column_name <span class="op">=</span> <span class="st">"Species"</span>,</span>
 <span>    compare_means_method <span class="op">=</span> <span class="st">"wilcox.test"</span>,</span>
-<span>    p.adjust_method <span class="op">=</span> <span class="st">"bonferroni"</span></span>
+<span>    p.adjust_method <span class="op">=</span> <span class="st">"fdr"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Compare p-values from t-test vs Wilcoxon</span></span>
 <span><span class="va">comparison</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>    feature <span class="op">=</span> <span class="va">features</span>,</span>
-<span>    t_test_p <span class="op">=</span> <span class="va">results</span><span class="op">$</span><span class="va">p.adj</span>,</span>
-<span>    wilcox_p <span class="op">=</span> <span class="va">results_wilcox</span><span class="op">$</span><span class="va">p.adj</span></span>
+<span>    t_test_p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/format.pval.html" class="external-link">format.pval</a></span><span class="op">(</span><span class="va">results_ttest</span><span class="op">$</span><span class="va">p.adj</span>, digits <span class="op">=</span> <span class="fl">3</span>, eps <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span>,</span>
+<span>    wilcox_p <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/format.pval.html" class="external-link">format.pval</a></span><span class="op">(</span><span class="va">results_wilcox</span><span class="op">$</span><span class="va">p.adj</span>, digits <span class="op">=</span> <span class="fl">3</span>, eps <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">comparison</span>, digits <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">comparison</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">feature</th>
-<th align="right">t_test_p</th>
-<th align="right">wilcox_p</th>
+<th align="left">t_test_p</th>
+<th align="left">wilcox_p</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">Sepal.Length</td>
-<td align="right">0</td>
-<td align="right">0</td>
+<td align="left">&lt; 0.001</td>
+<td align="left">&lt; 0.001</td>
 </tr>
 <tr class="even">
 <td align="left">Sepal.Width</td>
-<td align="right">0</td>
-<td align="right">0</td>
+<td align="left">0.00182</td>
+<td align="left">0.00457</td>
 </tr>
 <tr class="odd">
 <td align="left">Petal.Length</td>
-<td align="right">0</td>
-<td align="right">0</td>
+<td align="left">&lt; 0.001</td>
+<td align="left">&lt; 0.001</td>
 </tr>
 <tr class="even">
 <td align="left">Petal.Width</td>
-<td align="right">0</td>
-<td align="right">0</td>
+<td align="left">&lt; 0.001</td>
+<td align="left">&lt; 0.001</td>
 </tr>
 </tbody>
 </table>
