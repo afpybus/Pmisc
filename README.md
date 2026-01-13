@@ -36,11 +36,11 @@ lu(c("a", "a", "b", "c", "c", "c"))  # Returns 3
 
 The package includes detailed vignettes demonstrating key functions using common training datasets:
 
-- **[Statistical Comparisons with comp_means](vignettes/comp_means.Rmd)**: Learn how to compare means across groups, perform statistical tests, and create volcano plots using the iris dataset.
+- **[Statistical Comparisons with comp_means](https://afpybus.github.io/Pmisc/articles/comp_means.html)**: Learn how to compare means across groups, perform statistical tests, and create volcano plots using the iris dataset.
 
-- **[Set Visualization with Upset Plots](vignettes/upset_plots.Rmd)**: Create publication-quality upset plots for visualizing set intersections and combinations using mtcars and iris datasets.
+- **[Set Visualization with Upset Plots](https://afpybus.github.io/Pmisc/articles/upset_plots.html)**: Create publication-quality upset plots for visualizing set intersections and combinations using mtcars and iris datasets.
 
-- **[Survival Analysis](vignettes/survival_analysis.Rmd)**: Perform Cox proportional hazards analysis, create Kaplan-Meier curves, and visualize survival results using the lung cancer dataset.
+- **[Survival Analysis](https://afpybus.github.io/Pmisc/articles/survival_analysis.html)**: Perform Cox proportional hazards analysis, create Kaplan-Meier curves, and visualize survival results using the lung cancer dataset.
 
 To browse all vignettes after installing the package:
 
