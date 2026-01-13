@@ -17,3 +17,8 @@ ggplot object
 \description{
 Gene expression vs overall survival scatter plot
 }
+\seealso{
+\code{\link{coxph_all}}, \code{\link{KM_categorical}}
+
+\code{vignette("survival_analysis")}
+}

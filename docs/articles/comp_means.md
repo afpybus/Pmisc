@@ -1,5 +1,7 @@
 # Statistical Comparisons with comp_means
 
+**[GitHub Repository](https://github.com/afpybus/Pmisc)**
+
 ## Introduction
 
 The
@@ -26,7 +28,6 @@ dataset, comparing two species at a time.
 ## Load Package
 
 ``` r
-
 library(Pmisc)
 library(dplyr)
 #> Warning: package 'dplyr' was built under R version 4.5.2
@@ -50,7 +51,6 @@ Let’s compare petal and sepal measurements between two species: setosa
 and versicolor.
 
 ``` r
-
 # Filter to two species for simplicity
 iris_subset <- iris %>%
     mutate(Species = as.character(Species)) %>% # Convert factor to character
@@ -108,7 +108,6 @@ The companion function
 creates volcano plots to visualize the results:
 
 ``` r
-
 # Define colors for significance
 # "ns" is gray, significant groups get specific colors
 sig_colors <- data.frame(
@@ -145,7 +144,6 @@ The plot shows:
 For non-normal distributions, use the Wilcoxon rank-sum test:
 
 ``` r
-
 # Compare using Wilcoxon test
 results_wilcox <- comp_means(
     df = iris_subset,
@@ -179,7 +177,6 @@ Use
 to visualize specific features with p-value annotations:
 
 ``` r
-
 # Create boxplot for Petal.Length
 DEF_boxplot(
     data = iris_subset,
@@ -200,7 +197,6 @@ Fill Manual) helper allows you to easily apply custom fill colors using
 the same tibble format.
 
 ``` r
-
 # Define color scheme for the species (reusing similar colors)
 my_colors <- data.frame(
     breaks = c("setosa", "versicolor", "virginica"),
@@ -226,7 +222,6 @@ DEF_boxplot(
 The function supports multiple adjustment methods:
 
 ``` r
-
 # Compare different adjustment methods
 adj_methods <- c("fdr", "bonferroni", "holm")
 

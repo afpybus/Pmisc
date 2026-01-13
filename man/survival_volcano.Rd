@@ -15,3 +15,8 @@ ggplot object
 \description{
 Volcano plot for survival analysis results
 }
+\seealso{
+\code{\link{coxph_all}}
+
+\code{vignette("survival_analysis")}
+}

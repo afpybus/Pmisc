@@ -331,6 +331,9 @@ reorder_cormat <- function(cormat) {
 #' @param compare_means_method Statistical test: "t.test" or "wilcox.test" (for two groups)
 #' @param p.adjust_method P-value adjustment: "fdr", "bonferroni", "holm"
 #' @return Data frame with p-values, fold changes, and group means
+#' @seealso \code{\link{p.readjust}}, \code{\link{volcano_cm}}, \code{\link{volcano_cm_labelall}}, \code{\link{DEF_boxplot}}
+#' @seealso \code{vignette("comp_means")}
+
 #' @export
 comp_means <- function(df, feature_column_names, group_column_name = NA, compare_means_method = "t.test", p.adjust_method = "fdr") {
   if (!is.na(group_column_name)) {
@@ -398,6 +401,8 @@ comp_means <- function(df, feature_column_names, group_column_name = NA, compare
 #' @param cm_out Output from comp_means
 #' @param p.adjust_method Adjustment method (default: "fdr")
 #' @return Data frame with updated p.adj columns
+#' @seealso \code{\link{comp_means}}
+#' @seealso \code{vignette("comp_means")}
 #' @export
 p.readjust <- function(cm_out, p.adjust_method = "fdr") {
   cm_out <- cm_out %>%
@@ -415,6 +420,8 @@ p.readjust <- function(cm_out, p.adjust_method = "fdr") {
 #' @param x X-axis variable: "mean_dif" or "log2fc"
 #' @param max_overlaps Maximum label overlaps for ggrepel
 #' @return ggplot object
+#' @seealso \code{\link{comp_means}}, \code{\link{volcano_cm_labelall}}
+#' @seealso \code{vignette("comp_means")}
 #' @export
 volcano_cm <- function(comp_means_output, x = "mean_dif", max_overlaps = 10) {
   colnames(comp_means_output)[colnames(comp_means_output) == x] <- "x_var"
@@ -447,6 +454,8 @@ volcano_cm <- function(comp_means_output, x = "mean_dif", max_overlaps = 10) {
 #' @param x X-axis variable
 #' @param max_overlaps Maximum label overlaps
 #' @return ggplot object
+#' @seealso \code{\link{volcano_cm}}
+#' @seealso \code{vignette("comp_means")}
 #' @export
 volcano_cm_labelall <- function(comp_means_output, x = "mean_dif", max_overlaps = 10) {
   colnames(comp_means_output)[colnames(comp_means_output) == x] <- "x_var"
@@ -474,6 +483,8 @@ volcano_cm_labelall <- function(comp_means_output, x = "mean_dif", max_overlaps 
 #' @param feature Feature name to plot
 #' @param grouping Grouping variable name
 #' @return ggplot object
+#' @seealso \code{\link{DEF_boxplot_sig}}, \code{\link{comp_means}}
+#' @seealso \code{vignette("comp_means")}
 #' @export
 DEF_boxplot <- function(data, DE, feature, grouping) {
   colnames(data)[which(colnames(data) == feature)] <- "feature"
@@ -499,6 +510,8 @@ DEF_boxplot <- function(data, DE, feature, grouping) {
 #' @param feature Feature name
 #' @param grouping Grouping variable
 #' @return ggplot object
+#' @seealso \code{\link{DEF_boxplot}}
+#' @seealso \code{vignette("comp_means")}
 #' @export
 DEF_boxplot_sig <- function(data, DE, feature, grouping) {
   colnames(data)[which(colnames(data) == feature)] <- "feature"
@@ -589,6 +602,8 @@ make_pairs <- function(feature_list) {
 #' @param time_col Name of time column (default: "time")
 #' @param status_col Name of status column (default: "status")
 #' @return Data frame with hazard ratios and p-values
+#' @seealso \code{\link{survival_volcano}}, \code{\link{KM_categorical}}, \code{\link{gene_OS_scatter}}
+#' @seealso \code{vignette("survival_analysis")}
 #' @export
 coxph_all <- function(df, feature.names, time_col = "time", status_col = "status") {
   colnames(df)[colnames(df) == time_col] <- "time_coxph"
@@ -636,6 +651,8 @@ coxph_all <- function(df, feature.names, time_col = "time", status_col = "status
 #'
 #' @param coxph_all_out Output from coxph_all function
 #' @return ggplot object
+#' @seealso \code{\link{coxph_all}}
+#' @seealso \code{vignette("survival_analysis")}
 #' @export
 survival_volcano <- function(coxph_all_out) {
   ggplot(coxph_all_out, aes(x = hazard_ratio, y = -log10(p.adj), label = feature, color = result)) +
@@ -656,6 +673,8 @@ survival_volcano <- function(coxph_all_out) {
 #' @param time_scale Label for time axis
 #' @param reclass Whether to split by median (default: TRUE)
 #' @return ggsurvfit object
+#' @seealso \code{\link{coxph_all}}, \code{\link{gene_OS_scatter}}
+#' @seealso \code{vignette("survival_analysis")}
 #' @export
 KM_categorical <- function(df, gene, time_scale, reclass = TRUE) {
   if (reclass == TRUE) {
@@ -681,6 +700,8 @@ KM_categorical <- function(df, gene, time_scale, reclass = TRUE) {
 #' @param df Data frame with time, status, and gene columns
 #' @param gene Gene/feature name
 #' @return ggplot object
+#' @seealso \code{\link{coxph_all}}, \code{\link{KM_categorical}}
+#' @seealso \code{vignette("survival_analysis")}
 #' @export
 gene_OS_scatter <- function(df, gene) {
   gene_values <- df[, which(colnames(df) == gene)]
@@ -777,6 +798,8 @@ cor_hm <- function(mat, title = "", x.str = "", y.str = "",
 #' @param value Value to consider as TRUE (default: TRUE)
 #' @param cex.text Text size multiplier
 #' @return ggplot upset plot
+#' @seealso \code{\link{upset_side}}, \code{\link{make_grid}}
+#' @seealso \code{vignette("upset_plots")}
 #' @export
 upset_plot <- function(df, value = TRUE, cex.text = 1) {
   df <- mutate_all(df, ~ case_when(.x == value ~ 1, TRUE ~ NA))
@@ -805,6 +828,8 @@ upset_plot <- function(df, value = TRUE, cex.text = 1) {
 #' @param expand Expansion factor (default: 0.2)
 #' @param cex.text Text size multiplier (default: 1)
 #' @return ggplot object
+#' @seealso \code{\link{upset_plot}}
+#' @seealso \code{vignette("upset_plots")}
 #' @export
 upset_side <- function(df, value = TRUE, side = "left", add_percent = TRUE, expand = 0.2, cex.text = 1) {
   df <- mutate_all(df, ~ case_when(.x == value ~ 1, TRUE ~ NA))

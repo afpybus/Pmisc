@@ -19,3 +19,8 @@ ggplot object
 \description{
 Variant of volcano_cm that labels all points regardless of significance
 }
+\seealso{
+\code{\link{volcano_cm}}
+
+\code{vignette("comp_means")}
+}

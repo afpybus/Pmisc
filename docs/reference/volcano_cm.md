@@ -25,3 +25,10 @@ volcano_cm(comp_means_output, x = "mean_dif", max_overlaps = 10)
 ## Value
 
 ggplot object
+
+## See also
+
+[`comp_means`](https://afpybus.github.io/Pmisc/reference/comp_means.md),
+[`volcano_cm_labelall`](https://afpybus.github.io/Pmisc/reference/volcano_cm_labelall.md)
+
+[`vignette("comp_means")`](https://afpybus.github.io/Pmisc/articles/comp_means.md)

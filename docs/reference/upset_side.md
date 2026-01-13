@@ -44,3 +44,9 @@ upset_side(
 ## Value
 
 ggplot object
+
+## See also
+
+[`upset_plot`](https://afpybus.github.io/Pmisc/reference/upset_plot.md)
+
+[`vignette("upset_plots")`](https://afpybus.github.io/Pmisc/articles/upset_plots.md)

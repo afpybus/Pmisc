@@ -29,3 +29,10 @@ DEF_boxplot(data, DE, feature, grouping)
 ## Value
 
 ggplot object
+
+## See also
+
+[`DEF_boxplot_sig`](https://afpybus.github.io/Pmisc/reference/DEF_boxplot_sig.md),
+[`comp_means`](https://afpybus.github.io/Pmisc/reference/comp_means.md)
+
+[`vignette("comp_means")`](https://afpybus.github.io/Pmisc/articles/comp_means.md)

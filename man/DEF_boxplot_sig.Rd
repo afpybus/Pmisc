@@ -21,3 +21,8 @@ ggplot object
 \description{
 Variant of DEF_boxplot showing significance stars instead of p-values
 }
+\seealso{
+\code{\link{DEF_boxplot}}
+
+\code{vignette("comp_means")}
+}

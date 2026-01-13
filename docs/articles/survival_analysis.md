@@ -1,5 +1,7 @@
 # Survival Analysis with Pmisc
 
+**[GitHub Repository](https://github.com/afpybus/Pmisc)**
+
 ## Introduction
 
 The Pmisc package includes several functions for survival analysis,
@@ -20,7 +22,6 @@ the survival package.
 ## Load Packages
 
 ``` r
-
 library(Pmisc)
 library(dplyr)
 library(ggplot2)
@@ -35,7 +36,6 @@ The `lung` dataset contains survival data from patients with advanced
 lung cancer:
 
 ``` r
-
 # Load the lung dataset
 data(lung)
 #> Warning in data(lung): data set 'lung' not found
@@ -54,7 +54,6 @@ head(lung) %>% knitr::kable()
 |   12 | 1022 |      1 |  74 |   1 |       1 |       50 |        80 |      513 |       0 |
 
 ``` r
-
 
 # Summary of key variables
 summary(lung[, c("time", "status", "age", "sex", "ph.ecog")])
@@ -90,7 +89,6 @@ The Pmisc survival functions expect `status` coded as 0/1 (0 = censored,
 1 = event). Let’s prepare the data:
 
 ``` r
-
 # Prepare the lung dataset
 lung_prep <- lung %>%
     mutate(
@@ -114,7 +112,6 @@ function tests multiple features simultaneously for association with
 survival:
 
 ``` r
-
 # Define features to test
 features <- c("age", "sex_binary", "ph.ecog", "ph.karno", "pat.karno", "wt.loss")
 
@@ -161,7 +158,6 @@ In this example:
 Visualize the Cox regression results with a volcano plot:
 
 ``` r
-
 survival_volcano(cox_results) +
     ggtitle("Survival Analysis: Lung Cancer Dataset")
 ```
@@ -182,7 +178,6 @@ You can control the exact colors of the volcano plot using the
 [`scm()`](https://afpybus.github.io/Pmisc/reference/scm.md) helper:
 
 ``` r
-
 # Define custom colors for hazard categories
 volcano_colors <- data.frame(
     breaks = c("Increased Hazard", "Decreased Hazard", "ns"),
@@ -208,7 +203,6 @@ variables:
 ### Binary Variable: Sex
 
 ``` r
-
 # Create categorical variable for sex
 lung_km <- lung_prep %>%
     mutate(sex_cat = ifelse(sex_binary == 1, "Female", "Male"))
@@ -231,7 +225,6 @@ For continuous variables,
 automatically splits at the median:
 
 ``` r
-
 # Kaplan-Meier plot for age (split at median)
 KM_categorical(
     df = lung_prep,
@@ -247,7 +240,6 @@ KM_categorical(
 ### ECOG Performance Score
 
 ``` r
-
 # Create binary ECOG variable (good vs poor performance)
 lung_ecog <- lung_prep %>%
     filter(!is.na(ph.ecog)) %>%
@@ -272,7 +264,6 @@ function creates scatter plots showing the relationship between a
 feature and survival time:
 
 ``` r
-
 gene_OS_scatter(
     df = lung_prep,
     gene = "age"
@@ -299,7 +290,6 @@ gene_OS_scatter(
 - Vertical line at 60 months (5-year survival)
 
 ``` r
-
 # Another example: Weight loss vs survival
 lung_wt <- lung_prep %>% filter(!is.na(wt.loss))
 
@@ -317,7 +307,6 @@ gene_OS_scatter(
 Here’s a complete analysis workflow:
 
 ``` r
-
 # 1. Prepare data
 lung_analysis <- lung %>%
     mutate(
@@ -353,7 +342,6 @@ cox_results_full %>%
 
 ``` r
 
-
 # 4. Visualize results
 survival_volcano(cox_results_full) +
     ggtitle("Survival Analysis: Comprehensive Feature Testing")
@@ -367,7 +355,6 @@ For more complex analyses, you can combine Pmisc functions with base
 survival functions:
 
 ``` r
-
 # Test interaction between sex and age
 lung_interaction <- lung_prep %>%
     mutate(

@@ -1,5 +1,5 @@
 # Pmisc: Pybus Miscellaneous
-[Documentation](https://afpybus.github.io/Pmisc/)
+[Documentation](https://afpybus.github.io/Pmisc/) | [GitHub Repository](https://github.com/afpybus/Pmisc)
 
 A comprehensive collection of utility functions for bioinformatics and data analysis. Key features include statistical comparisons, survival analysis workflows, publication-ready visualizations (heatmaps, upset plots), and general data manipulation tools.
 

@@ -21,3 +21,10 @@ gene_OS_scatter(df, gene)
 ## Value
 
 ggplot object
+
+## See also
+
+[`coxph_all`](https://afpybus.github.io/Pmisc/reference/coxph_all.md),
+[`KM_categorical`](https://afpybus.github.io/Pmisc/reference/KM_categorical.md)
+
+[`vignette("survival_analysis")`](https://afpybus.github.io/Pmisc/articles/survival_analysis.md)

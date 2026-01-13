@@ -17,3 +17,9 @@ survival_volcano(coxph_all_out)
 ## Value
 
 ggplot object
+
+## See also
+
+[`coxph_all`](https://afpybus.github.io/Pmisc/reference/coxph_all.md)
+
+[`vignette("survival_analysis")`](https://afpybus.github.io/Pmisc/articles/survival_analysis.md)

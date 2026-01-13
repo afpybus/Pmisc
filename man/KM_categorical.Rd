@@ -21,3 +21,8 @@ ggsurvfit object
 \description{
 Kaplan-Meier plot by gene expression
 }
+\seealso{
+\code{\link{coxph_all}}, \code{\link{gene_OS_scatter}}
+
+\code{vignette("survival_analysis")}
+}

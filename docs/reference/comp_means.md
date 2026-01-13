@@ -41,3 +41,12 @@ comp_means(
 ## Value
 
 Data frame with p-values, fold changes, and group means
+
+## See also
+
+[`p.readjust`](https://afpybus.github.io/Pmisc/reference/p.readjust.md),
+[`volcano_cm`](https://afpybus.github.io/Pmisc/reference/volcano_cm.md),
+[`volcano_cm_labelall`](https://afpybus.github.io/Pmisc/reference/volcano_cm_labelall.md),
+[`DEF_boxplot`](https://afpybus.github.io/Pmisc/reference/DEF_boxplot.md)
+
+[`vignette("comp_means")`](https://afpybus.github.io/Pmisc/articles/comp_means.md)

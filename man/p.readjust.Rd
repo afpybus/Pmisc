@@ -17,3 +17,8 @@ Data frame with updated p.adj columns
 \description{
 Readjust p-values from comp_means output
 }
+\seealso{
+\code{\link{comp_means}}
+
+\code{vignette("comp_means")}
+}

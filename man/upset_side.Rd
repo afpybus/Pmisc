@@ -32,3 +32,8 @@ ggplot object
 \description{
 Create side panel for upset plot
 }
+\seealso{
+\code{\link{upset_plot}}
+
+\code{vignette("upset_plots")}
+}

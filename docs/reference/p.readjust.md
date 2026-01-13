@@ -21,3 +21,9 @@ p.readjust(cm_out, p.adjust_method = "fdr")
 ## Value
 
 Data frame with updated p.adj columns
+
+## See also
+
+[`comp_means`](https://afpybus.github.io/Pmisc/reference/comp_means.md)
+
+[`vignette("comp_means")`](https://afpybus.github.io/Pmisc/articles/comp_means.md)

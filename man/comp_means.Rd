@@ -30,3 +30,8 @@ Data frame with p-values, fold changes, and group means
 Perform pairwise statistical comparisons for multiple features between TWO groups.
 For comparing more than two groups, filter your data to two groups at a time.
 }
+\seealso{
+\code{\link{p.readjust}}, \code{\link{volcano_cm}}, \code{\link{volcano_cm_labelall}}, \code{\link{DEF_boxplot}}
+
+\code{vignette("comp_means")}
+}

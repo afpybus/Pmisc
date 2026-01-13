@@ -9,6 +9,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+
+**[GitHub Repository](https://github.com/afpybus/Pmisc)**
+
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
     collapse = TRUE,

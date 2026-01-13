@@ -21,3 +21,8 @@ Data frame with hazard ratios and p-values
 \description{
 Run Cox proportional hazards model for multiple features
 }
+\seealso{
+\code{\link{survival_volcano}}, \code{\link{KM_categorical}}, \code{\link{gene_OS_scatter}}
+
+\code{vignette("survival_analysis")}
+}

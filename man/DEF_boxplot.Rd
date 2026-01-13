@@ -21,3 +21,8 @@ ggplot object
 \description{
 Create violin + boxplot with p-value annotation
 }
+\seealso{
+\code{\link{DEF_boxplot_sig}}, \code{\link{comp_means}}
+
+\code{vignette("comp_means")}
+}

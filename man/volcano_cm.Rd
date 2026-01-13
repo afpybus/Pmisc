@@ -19,3 +19,8 @@ ggplot object
 \description{
 Create volcano plot from comp_means results
 }
+\seealso{
+\code{\link{comp_means}}, \code{\link{volcano_cm_labelall}}
+
+\code{vignette("comp_means")}
+}

@@ -29,3 +29,10 @@ KM_categorical(df, gene, time_scale, reclass = TRUE)
 ## Value
 
 ggsurvfit object
+
+## See also
+
+[`coxph_all`](https://afpybus.github.io/Pmisc/reference/coxph_all.md),
+[`gene_OS_scatter`](https://afpybus.github.io/Pmisc/reference/gene_OS_scatter.md)
+
+[`vignette("survival_analysis")`](https://afpybus.github.io/Pmisc/articles/survival_analysis.md)

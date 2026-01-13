@@ -19,3 +19,8 @@ ggplot upset plot
 \description{
 Create upset plot from binary data
 }
+\seealso{
+\code{\link{upset_side}}, \code{\link{make_grid}}
+
+\code{vignette("upset_plots")}
+}
