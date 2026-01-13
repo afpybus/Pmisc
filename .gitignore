@@ -5,5 +5,7 @@
 *.Rproj
 /doc/
 /Meta/
-
 Rplots.pdf
+
+# Claude Code temp files
+tmpclaude-*-cwd

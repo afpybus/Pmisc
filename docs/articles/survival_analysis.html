@@ -60,7 +60,7 @@
                         <h4 data-toc-skip class="author">Alyssa
 Pybus</h4>
             
-            <h4 data-toc-skip class="date">2026-01-12</h4>
+            <h4 data-toc-skip class="date">2026-01-13</h4>
       
 
       <div class="d-none name"><code>survival_analysis.Rmd</code></div>
@@ -107,9 +107,8 @@ survival</li>
 <p>The <code>lung</code> dataset contains survival data from patients
 with advanced lung cancer:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Load the lung dataset</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">lung</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in data(lung): data set 'lung' not found</span></span>
+<code class="sourceCode R"><span><span class="co"># Load the lung dataset from the survival package</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">lung</span>, package <span class="op">=</span> <span class="st">"survival"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Preview the data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">lung</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -215,37 +214,15 @@ with advanced lung cancer:</p>
 </table>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="co"># Summary of key variables</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">lung</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"time"</span>, <span class="st">"status"</span>, <span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"ph.ecog"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       time            status           age             sex       </span></span>
-<span><span class="co">#&gt;  Min.   :   5.0   Min.   :1.000   Min.   :39.00   Min.   :1.000  </span></span>
-<span><span class="co">#&gt;  1st Qu.: 166.8   1st Qu.:1.000   1st Qu.:56.00   1st Qu.:1.000  </span></span>
-<span><span class="co">#&gt;  Median : 255.5   Median :2.000   Median :63.00   Median :1.000  </span></span>
-<span><span class="co">#&gt;  Mean   : 305.2   Mean   :1.724   Mean   :62.45   Mean   :1.395  </span></span>
-<span><span class="co">#&gt;  3rd Qu.: 396.5   3rd Qu.:2.000   3rd Qu.:69.00   3rd Qu.:2.000  </span></span>
-<span><span class="co">#&gt;  Max.   :1022.0   Max.   :2.000   Max.   :82.00   Max.   :2.000  </span></span>
-<span><span class="co">#&gt;                                                                  </span></span>
-<span><span class="co">#&gt;     ph.ecog      </span></span>
-<span><span class="co">#&gt;  Min.   :0.0000  </span></span>
-<span><span class="co">#&gt;  1st Qu.:0.0000  </span></span>
-<span><span class="co">#&gt;  Median :1.0000  </span></span>
-<span><span class="co">#&gt;  Mean   :0.9515  </span></span>
-<span><span class="co">#&gt;  3rd Qu.:1.0000  </span></span>
-<span><span class="co">#&gt;  Max.   :3.0000  </span></span>
-<span><span class="co">#&gt;  NA's   :1</span></span></code></pre></div>
-<p><strong>Key variables:</strong></p>
-<ul>
-<li>
-<code>time</code>: Survival time in days</li>
-<li>
-<code>status</code>: Censoring status (1 = censored, 2 = dead)</li>
-<li>
-<code>age</code>: Age in years</li>
-<li>
-<code>sex</code>: 1 = male, 2 = female</li>
-<li>
-<code>ph.ecog</code>: ECOG performance score (0-3)</li>
-</ul>
+<span><span class="co"># Dataset dimensions</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">lung</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 228  10</span></span></code></pre></div>
+<p>This dataset includes 228 patients with variables including: -
+<strong>time</strong>: Survival time in days - <strong>status</strong>:
+Censoring status (1=censored, 2=dead) - <strong>age</strong>,
+<strong>sex</strong>, <strong>ph.ecog</strong>,
+<strong>ph.karno</strong>, etc.: Clinical and demographic variables -
+<code>ph.ecog</code>: ECOG performance score (0-3)</p>
 </div>
 <div class="section level2">
 <h2 id="standardizing-the-data">Standardizing the Data<a class="anchor" aria-label="anchor" href="#standardizing-the-data"></a>
@@ -491,15 +468,7 @@ showing the relationship between a feature and survival time:</p>
 <span>    df <span class="op">=</span> <span class="va">lung_prep</span>,</span>
 <span>    gene <span class="op">=</span> <span class="st">"age"</span></span>
 <span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Age vs Survival Time"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: `aes_string()` was deprecated in ggplot2 3.0.0.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use tidy evaluation idioms with `aes()`.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> See also `vignette("ggplot2-in-packages")` for more information.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">Pmisc</span> package.</span></span>
-<span><span class="co">#&gt;   Please report the issue to the authors.</span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once per session.</span></span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span></code></pre></div>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Age vs Survival Time"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figures/survival_analysis-gene_os_scatter-1.png" class="r-plt" alt="" width="672"></p>
 <p><strong>Plot elements:</strong></p>
 <ul>

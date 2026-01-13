@@ -11,6 +11,7 @@ plots), and general data manipulation tools.
 ## Installation
 
 ``` r
+
 # Install pacman if you don't have it
 install.packages("pacman")
 
@@ -23,6 +24,7 @@ pacman::p_load_gh("afpybus/Pmisc")
 Load the package in any R script or project:
 
 ``` r
+
 pacman::p_load_gh("afpybus/Pmisc")
 
 # Now all functions are available
@@ -58,6 +60,7 @@ using common training datasets:
 To browse all vignettes after installing the package:
 
 ``` r
+
 # Install with vignettes
 devtools::install_github("afpybus/Pmisc", build_vignettes = TRUE)
 
@@ -122,6 +125,7 @@ vignette("survival_analysis", package = "Pmisc")
 To update to the latest version from GitHub:
 
 ``` r
+
 pacman::p_load_gh("afpybus/Pmisc")
 ```
 

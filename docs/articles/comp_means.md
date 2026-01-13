@@ -30,21 +30,11 @@ high-throughput multivariate analysis.
 ## Load Package
 
 ``` r
+
 library(Pmisc)
 library(dplyr)
-#> Warning: package 'dplyr' was built under R version 4.5.2
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 library(ggplot2)
-#> Warning: package 'ggplot2' was built under R version 4.5.2
 library(tibble)
-#> Warning: package 'tibble' was built under R version 4.5.2
 ```
 
 ## Simulating Gene Expression Data
@@ -54,6 +44,7 @@ let’s simulate a gene expression dataset with 50 genes across two
 experimental groups: “Control” and “Treatment”.
 
 ``` r
+
 set.seed(123) # For reproducibility
 
 # 1. Create sample metadata
@@ -100,6 +91,7 @@ Now we run
 on all 50 genes simultaneously.
 
 ``` r
+
 # Define all gene columns as features
 features <- genes
 
@@ -137,6 +129,7 @@ With 50 variables, the volcano plot becomes a powerful tool to visualize
 the overall landscape of differential expression.
 
 ``` r
+
 # Define colors: Control (blue), Treatment (red), ns (gray)
 # Note: "Control" is the reference, so "Treatment" is the comparison group
 sig_colors <- data.frame(
@@ -153,9 +146,6 @@ volcano_cm(
 ) +
     scm(sig_colors) +
     ggtitle("Differential Expression: Treatment vs Control")
-#> Warning in geom_text(aes(x = max(x_var) - 0.07 * sum(range(abs(x_var))), : All aesthetics have length 1, but the data has 50 rows.
-#> ℹ Please consider using `annotate()` or provide this layer with data containing
-#>   a single row.
 ```
 
 ![](figures/comp_means-volcano_plot-1.png)
@@ -171,6 +161,7 @@ background genes
 We can verify our top hits using boxplots.
 
 ``` r
+
 # Visualize top upregulated gene
 p1 <- DEF_boxplot(
     data = df_genes,
@@ -198,6 +189,7 @@ ggpubr::ggarrange(p1, p2, ncol = 2)
 We can also perform the same broad comparison using the Wilcoxon test.
 
 ``` r
+
 # Run Wilcoxon test on all genes
 results_wilcox <- comp_means(
     df = df_genes,

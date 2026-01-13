@@ -22,6 +22,7 @@ the survival package.
 ## Load Packages
 
 ``` r
+
 library(Pmisc)
 library(dplyr)
 library(ggplot2)
@@ -36,9 +37,9 @@ The `lung` dataset contains survival data from patients with advanced
 lung cancer:
 
 ``` r
-# Load the lung dataset
-data(lung)
-#> Warning in data(lung): data set 'lung' not found
+
+# Load the lung dataset from the survival package
+data(lung, package = "survival")
 
 # Preview the data
 head(lung) %>% knitr::kable()
@@ -55,33 +56,16 @@ head(lung) %>% knitr::kable()
 
 ``` r
 
-# Summary of key variables
-summary(lung[, c("time", "status", "age", "sex", "ph.ecog")])
-#>       time            status           age             sex       
-#>  Min.   :   5.0   Min.   :1.000   Min.   :39.00   Min.   :1.000  
-#>  1st Qu.: 166.8   1st Qu.:1.000   1st Qu.:56.00   1st Qu.:1.000  
-#>  Median : 255.5   Median :2.000   Median :63.00   Median :1.000  
-#>  Mean   : 305.2   Mean   :1.724   Mean   :62.45   Mean   :1.395  
-#>  3rd Qu.: 396.5   3rd Qu.:2.000   3rd Qu.:69.00   3rd Qu.:2.000  
-#>  Max.   :1022.0   Max.   :2.000   Max.   :82.00   Max.   :2.000  
-#>                                                                  
-#>     ph.ecog      
-#>  Min.   :0.0000  
-#>  1st Qu.:0.0000  
-#>  Median :1.0000  
-#>  Mean   :0.9515  
-#>  3rd Qu.:1.0000  
-#>  Max.   :3.0000  
-#>  NA's   :1
+
+# Dataset dimensions
+dim(lung)
+#> [1] 228  10
 ```
 
-**Key variables:**
-
-- `time`: Survival time in days
-- `status`: Censoring status (1 = censored, 2 = dead)
-- `age`: Age in years
-- `sex`: 1 = male, 2 = female
-- `ph.ecog`: ECOG performance score (0-3)
+This dataset includes 228 patients with variables including: - **time**:
+Survival time in days - **status**: Censoring status (1=censored,
+2=dead) - **age**, **sex**, **ph.ecog**, **ph.karno**, etc.: Clinical
+and demographic variables - `ph.ecog`: ECOG performance score (0-3)
 
 ## Standardizing the Data
 
@@ -89,6 +73,7 @@ The Pmisc survival functions expect `status` coded as 0/1 (0 = censored,
 1 = event). Let’s prepare the data:
 
 ``` r
+
 # Prepare the lung dataset
 lung_prep <- lung %>%
     mutate(
@@ -112,6 +97,7 @@ function tests multiple features simultaneously for association with
 survival:
 
 ``` r
+
 # Define features to test
 features <- c("age", "sex_binary", "ph.ecog", "ph.karno", "pat.karno", "wt.loss")
 
@@ -158,6 +144,7 @@ In this example:
 Visualize the Cox regression results with a volcano plot:
 
 ``` r
+
 survival_volcano(cox_results) +
     ggtitle("Survival Analysis: Lung Cancer Dataset")
 ```
@@ -178,6 +165,7 @@ You can control the exact colors of the volcano plot using the
 [`scm()`](https://afpybus.github.io/Pmisc/reference/scm.md) helper:
 
 ``` r
+
 # Define custom colors for hazard categories
 volcano_colors <- data.frame(
     breaks = c("Increased Hazard", "Decreased Hazard", "ns"),
@@ -203,6 +191,7 @@ variables:
 ### Binary Variable: Sex
 
 ``` r
+
 # Create categorical variable for sex
 lung_km <- lung_prep %>%
     mutate(sex_cat = ifelse(sex_binary == 1, "Female", "Male"))
@@ -225,6 +214,7 @@ For continuous variables,
 automatically splits at the median:
 
 ``` r
+
 # Kaplan-Meier plot for age (split at median)
 KM_categorical(
     df = lung_prep,
@@ -240,6 +230,7 @@ KM_categorical(
 ### ECOG Performance Score
 
 ``` r
+
 # Create binary ECOG variable (good vs poor performance)
 lung_ecog <- lung_prep %>%
     filter(!is.na(ph.ecog)) %>%
@@ -264,19 +255,12 @@ function creates scatter plots showing the relationship between a
 feature and survival time:
 
 ``` r
+
 gene_OS_scatter(
     df = lung_prep,
     gene = "age"
 ) +
     ggtitle("Age vs Survival Time")
-#> Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
-#> ℹ Please use tidy evaluation idioms with `aes()`.
-#> ℹ See also `vignette("ggplot2-in-packages")` for more information.
-#> ℹ The deprecated feature was likely used in the Pmisc package.
-#>   Please report the issue to the authors.
-#> This warning is displayed once per session.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-#> generated.
 ```
 
 ![](figures/survival_analysis-gene_os_scatter-1.png)
@@ -290,6 +274,7 @@ gene_OS_scatter(
 - Vertical line at 60 months (5-year survival)
 
 ``` r
+
 # Another example: Weight loss vs survival
 lung_wt <- lung_prep %>% filter(!is.na(wt.loss))
 
@@ -307,6 +292,7 @@ gene_OS_scatter(
 Here’s a complete analysis workflow:
 
 ``` r
+
 # 1. Prepare data
 lung_analysis <- lung %>%
     mutate(
@@ -342,6 +328,7 @@ cox_results_full %>%
 
 ``` r
 
+
 # 4. Visualize results
 survival_volcano(cox_results_full) +
     ggtitle("Survival Analysis: Comprehensive Feature Testing")
@@ -355,6 +342,7 @@ For more complex analyses, you can combine Pmisc functions with base
 survival functions:
 
 ``` r
+
 # Test interaction between sex and age
 lung_interaction <- lung_prep %>%
     mutate(

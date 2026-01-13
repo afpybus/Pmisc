@@ -21,21 +21,11 @@ This vignette demonstrates these functions using the `mtcars` dataset.
 ## Load Packages
 
 ``` r
+
 library(Pmisc)
 library(dplyr)
-#> Warning: package 'dplyr' was built under R version 4.5.2
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 library(ggplot2)
-#> Warning: package 'ggplot2' was built under R version 4.5.2
 library(tibble)
-#> Warning: package 'tibble' was built under R version 4.5.2
 ```
 
 ## Creating Binary Membership Data
@@ -44,6 +34,7 @@ First, let’s create binary (TRUE/FALSE) membership data from the
 `mtcars` dataset based on various characteristics:
 
 ``` r
+
 # Create binary indicators for different car characteristics
 mtcars_binary <- mtcars %>%
     mutate(
@@ -76,22 +67,8 @@ Each row represents a car, and each column indicates membership in a set
 Create a basic upset plot showing all set intersections:
 
 ``` r
+
 upset_plot(mtcars_binary)
-#> Warning: There was 1 warning in `mutate()`.
-#> ℹ In argument: `aggregate = list(c_across())`.
-#> ℹ In row 1.
-#> Caused by warning:
-#> ! Using `c_across()` without supplying `cols` was deprecated in dplyr 1.1.0.
-#> ℹ Please supply `cols` instead.
-#> ℹ The deprecated feature was likely used in the Pmisc package.
-#>   Please report the issue to the authors.
-#> Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-#> ℹ Please use `linewidth` instead.
-#> ℹ The deprecated feature was likely used in the ggupset package.
-#>   Please report the issue at <https://github.com/const-ae/ggupset/issues>.
-#> This warning is displayed once per session.
-#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-#> generated.
 ```
 
 ![](figures/upset_plots-basic_upset-1.png)
@@ -108,6 +85,7 @@ upset_plot(mtcars_binary)
 For presentations or publications, you can adjust text size:
 
 ``` r
+
 upset_plot(mtcars_binary, cex.text = 1.2)
 ```
 
@@ -121,6 +99,7 @@ function creates bar charts showing the total size of each individual
 set:
 
 ``` r
+
 # Left side panel
 upset_side(mtcars_binary, side = "left")
 ```
@@ -128,6 +107,7 @@ upset_side(mtcars_binary, side = "left")
 ![](figures/upset_plots-side_panel_left-1.png)
 
 ``` r
+
 # Right side panel (without percentages)
 upset_side(mtcars_binary, side = "right", add_percent = FALSE)
 ```
@@ -146,6 +126,7 @@ For publication-quality figures, combine the upset plot with a side
 panel:
 
 ``` r
+
 # Create both plots
 main_plot <- upset_plot(mtcars_binary, cex.text = 1.1)
 side_plot <- upset_side(mtcars_binary, side = "left", cex.text = 1.1)
@@ -161,6 +142,7 @@ make_grid(list(side_plot, main_plot), nrow = 1, ncol = 2)
 Let’s create a more complex example with additional characteristics:
 
 ``` r
+
 # Create more detailed binary classifications
 mtcars_expanded <- mtcars %>%
     mutate(
@@ -183,6 +165,7 @@ The functions work with any binary indicator, not just TRUE/FALSE. You
 can specify which value to treat as “TRUE”:
 
 ``` r
+
 # Create data with 1/0 instead of TRUE/FALSE
 mtcars_numeric <- mtcars_binary * 1 # Convert TRUE/FALSE to 1/0
 
@@ -193,6 +176,7 @@ upset_plot(mtcars_numeric, value = 1)
 ![](figures/upset_plots-custom_values-1.png)
 
 ``` r
+
 # Works with any value
 mtcars_text <- mtcars_binary %>%
     mutate(across(everything(), ~ ifelse(.x, "Yes", "No")))
@@ -208,6 +192,7 @@ Let’s use the `iris` dataset to show which species have above-median
 measurements:
 
 ``` r
+
 # Create binary indicators for above-median measurements
 iris_binary <- iris %>%
     mutate(
@@ -257,6 +242,7 @@ Upset plots offer several advantages:
 Control the white space in side panels:
 
 ``` r
+
 upset_side(mtcars_binary, side = "right", expand = 0.3, add_percent = FALSE)
 ```
 
@@ -267,6 +253,7 @@ upset_side(mtcars_binary, side = "right", expand = 0.3, add_percent = FALSE)
 Since the output is a ggplot object, you can add additional styling:
 
 ``` r
+
 upset_plot(mtcars_binary, cex.text = 1.1) +
     theme_minimal() +
     theme(

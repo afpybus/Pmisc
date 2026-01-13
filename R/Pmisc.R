@@ -706,7 +706,7 @@ KM_categorical <- function(df, gene, time_scale, reclass = TRUE) {
 gene_OS_scatter <- function(df, gene) {
   gene_values <- df[, which(colnames(df) == gene)]
   df <- mutate(df, vital_status = case_when(status == 1 ~ "DEAD", status == 0 ~ "ALIVE"))
-  ggplot(data = df, mapping = aes_string(x = "time", y = gene, color = "vital_status")) +
+  ggplot(data = df, mapping = aes(x = .data[["time"]], y = .data[[gene]], color = .data[["vital_status"]])) +
     geom_point() +
     xlab("Survival") +
     stat_ellipse(level = 0.68) +

@@ -53,9 +53,9 @@ library(stringr)
 
 The `lung` dataset contains survival data from patients with advanced lung cancer:
 
-```{r explore_data, warning=FALSE}
-# Load the lung dataset
-data(lung)
+```{r explore_data, warning=FALSE, message=FALSE}
+# Load the lung dataset from the survival package
+data(lung, package = "survival")
 
 # Preview the data
 head(lung) %>% knitr::kable()
@@ -212,11 +212,10 @@ KM_categorical(
 
 The `gene_OS_scatter()` function creates scatter plots showing the relationship between a feature and survival time:
 
-```{r gene_os_scatter, warning=FALSE}
+```{r gene_os_scatter, warning=FALSE, message=FALSE}
 gene_OS_scatter(
     df = lung_prep,
-    gene = "age",
-    time_scale = "Days"
+    gene = "age"
 ) +
     ggtitle("Age vs Survival Time")
 ```
